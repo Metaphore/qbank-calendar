@@ -59,8 +59,6 @@ class ModeItem extends FrameLayout implements Checkable {
 
     public void setSelectedDate(Date date) {
         selectedDate.setText(CommonUtils.DATE_FORMAT.format(date));
-        invalidate();
-        requestLayout();
     }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
@@ -110,7 +108,7 @@ class ModeItem extends FrameLayout implements Checkable {
 
     @Override
     public void toggle() {
-        // Allow only check (unchecking through touch is prohibited)
+        // Restricts uncheking by touch
         if (!checked) {
             setChecked(true);
         }

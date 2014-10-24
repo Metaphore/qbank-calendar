@@ -7,7 +7,13 @@
 
     <com.metaphore.qbankcalendar.modepicker.ModePicker
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
+    <com.metaphore.qbankcalendar.monthyearpicker.MonthYearPicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
     <Button
             android:layout_width="match_parent"

@@ -30,7 +30,6 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         inflater.inflate(R.layout.mode_picker, this, true);
 
         modeBeginItem = ((ModeItem) findViewById(R.id.mode_period_begin));
-//        modeBeginItem.setChecked(true);
         modeEndItem = ((ModeItem) findViewById(R.id.mode_period_end));
         modeBeginItem.setOnCheckedChangeListener(this);
         modeEndItem.setOnCheckedChangeListener(this);
@@ -65,14 +64,13 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
             if (modePickerListener != null) {
                 modePickerListener.onPeriodBeginMode();
             }
-        } else if (modeItem == modeEndItem) {
+        }
+        if (modeItem == modeEndItem) {
             Log.d(LOG_TAG, "Mode changed to \"End of period\"");
             modeBeginItem.setChecked(false);
             if (modePickerListener != null) {
                 modePickerListener.onPeriodEndMode();
             }
-        } else {
-            throw new IllegalStateException("Unexpected modeItem");
         }
 
         broadcasting = false;

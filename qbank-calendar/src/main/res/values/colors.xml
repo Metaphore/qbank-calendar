@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mode_item_bck">#dff</color>
-    <color name="mode_item_bck_checked">#f88</color>
+    <color name="mode_item_bck">#aaa</color>
+    <color name="mode_item_bck_checked">#0000</color>
+
+    <color name="month_year_item_bck">#0000</color>
+    <color name="month_year_item_bck_checked">#88b824</color>
 </resources>
