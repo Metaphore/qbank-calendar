@@ -15,11 +15,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"/>
 
+    <com.metaphore.qbankcalendar.dayview.DayView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
     <Button
             android:layout_width="match_parent"
             android:layout_height="84px"
             android:layout_marginTop="40px"
             android:layout_marginBottom="33px"
+            android:id="@+id/button_ok"
             android:text="Ок"/>
 
 </LinearLayout>

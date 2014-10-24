@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background_base">#fff</color>
+    <color name="background_light">#f2f2f2</color>
+
     <color name="mode_item_bck">#aaa</color>
     <color name="mode_item_bck_checked">#0000</color>
 
