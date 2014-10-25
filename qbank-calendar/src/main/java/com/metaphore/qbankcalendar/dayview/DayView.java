@@ -10,16 +10,15 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import com.metaphore.qbankcalendar.CalendarData;
 import com.metaphore.qbankcalendar.R;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class DayView extends FrameLayout {
     private static final String LOG_TAG = DayView.class.getSimpleName();
 
     private final GridView dayGrid;
-    private final CalendarDataAdapter calendarDataAdapter;
+    private final DayViewAdapter dayViewAdapter;
 
     private DateViewListener dateViewListener;
 
@@ -32,16 +31,16 @@ public class DayView extends FrameLayout {
         inflater.inflate(R.layout.day_view, this, true);
 
         dayGrid = ((GridView) findViewById(R.id.day_grid));
-        calendarDataAdapter = new CalendarDataAdapter(context);
-        dayGrid.setAdapter(calendarDataAdapter);
+        dayViewAdapter = new DayViewAdapter(context);
+        dayGrid.setAdapter(dayViewAdapter);
     }
 
-    public void setCalendarData(CalendarData calendarData) {
-        calendarDataAdapter.setCalendarData(calendarData);
+    public void setSelectedInterval(Calendar begin, Calendar end) {
+        dayViewAdapter.setSelectionInterval(begin, end);
     }
 
-    public void showDate(Date date) {
-        calendarDataAdapter.setCurrentDate(date);
+    public void showDate(Calendar date) {
+        dayViewAdapter.setCurrentDate(date);
     }
 
     public void setDateViewListener(DateViewListener listener) {
@@ -64,5 +63,4 @@ public class DayView extends FrameLayout {
 
     public interface DateViewListener {
     }
-
 }
