@@ -6,6 +6,6 @@
     <color name="mode_item_bck">#aaa</color>
     <color name="mode_item_bck_checked">#0000</color>
 
-    <color name="month_year_item_bck">#0000</color>
+    <color name="month_year_item_bck">#f2f2f2</color>
     <color name="month_year_item_bck_checked">#88b824</color>
 </resources>

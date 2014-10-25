@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.metaphore.qbankcalendar.EditMode;
 import com.metaphore.qbankcalendar.R;
 import hirondelle.date4j.DateTime;
 
@@ -17,7 +18,8 @@ import java.util.Comparator;
 class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
     public static final int COLOR_BG_INSIDE_INTERVAL = Color.parseColor("#f1ffcc");
-    public static final int COLOR_BG_INTERVAL_EDGE = Color.parseColor("#daefa0");
+    public static final int COLOR_BG_INTERVAL_EDGE_ACTIVE = Color.parseColor("#88b824");
+    public static final int COLOR_BG_INTERVAL_EDGE_PASSIVE = Color.parseColor("#daefa0");
 
     private final Context context;
     private final Calendar beginDate = Calendar.getInstance();
@@ -27,6 +29,7 @@ class DayViewAdapter extends BaseAdapter {
     private final CalendarComparator comparator = new CalendarComparator();
 
     private ArrayList<Calendar> fullWeeks;
+    private EditMode editMode = EditMode.BEGIN_DATE;
 
     DayViewAdapter(Context context) {
         this.context = context;
@@ -58,12 +61,30 @@ class DayViewAdapter extends BaseAdapter {
         return endDate;
     }
 
+    public void setEditMode(EditMode editMode) {
+        this.editMode = editMode;
+
+        generateWeeksData();
+        notifyDataSetChanged();
+    }
+
     public void setSelectionInterval(Calendar begin, Calendar end) {
         beginDate.setTime(begin.getTime());
         endDate.setTime(end.getTime());
 
         generateWeeksData();
         notifyDataSetChanged();
+    }
+
+    public void setSelectedDate(Calendar selectedDate) {
+        switch (editMode) {
+            case BEGIN_DATE:
+                setSelectionInterval(selectedDate, endDate);
+                break;
+            case END_DATE:
+                setSelectionInterval(beginDate, selectedDate);
+                break;
+        }
     }
 
     private void generateWeeksData() {
@@ -97,7 +118,21 @@ class DayViewAdapter extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        return isInCurrentMonth(position) && !isIntervalEdge(position);
+        return isInCurrentMonth(position) &&
+               !isIntervalEdge(position) &&
+               !isDateBesideOtherPeriodEdge(position);
+    }
+
+    private boolean isDateBesideOtherPeriodEdge(int position) {
+        Calendar date = fullWeeks.get(position);
+        switch (editMode) {
+            case BEGIN_DATE:
+                return comparator.compare(date, endDate) > 0;
+            case END_DATE:
+                return comparator.compare(date, beginDate) < 0;
+            default:
+                throw new IllegalStateException("Unexpected editMode state");
+        }
     }
 
     private boolean isInCurrentMonth(int position) {
@@ -113,6 +148,18 @@ class DayViewAdapter extends BaseAdapter {
     private boolean isIntervalEdge(int position) {
         Calendar date = fullWeeks.get(position);
         return comparator.compare(date, beginDate) == 0 || comparator.compare(date, endDate) == 0;
+    }
+
+    private boolean isActiveIntervalEdge(int position) {
+        Calendar date = fullWeeks.get(position);
+        switch (editMode) {
+            case BEGIN_DATE:
+                return comparator.compare(date, beginDate) == 0;
+            case END_DATE:
+                return comparator.compare(date, endDate) == 0;
+            default:
+                throw new IllegalStateException("Unexpected editMode state");
+        }
     }
 
     private boolean isDayWithContinue(int position) {
@@ -144,6 +191,7 @@ class DayViewAdapter extends BaseAdapter {
 //        } else {
 //            viewHolder = (ViewHolder) view.getTag();
 //        }
+        //TODO reset full view state and use ViewHolder
 
         Calendar date = (Calendar) getItem(position);
 
@@ -151,8 +199,13 @@ class DayViewAdapter extends BaseAdapter {
             viewHolder.dayNumber.setText(String.valueOf(date.get(Calendar.DAY_OF_MONTH)));
 
             if (isInsideInterval(position)) {
+
                 if (isIntervalEdge(position)) {
-                    viewHolder.container.setBackgroundColor(COLOR_BG_INTERVAL_EDGE);
+                    viewHolder.container.setBackgroundColor(
+                            isActiveIntervalEdge(position) ?
+                                    COLOR_BG_INTERVAL_EDGE_ACTIVE :
+                                    COLOR_BG_INTERVAL_EDGE_PASSIVE
+                    );
                 } else {
                     viewHolder.container.setBackgroundColor(COLOR_BG_INSIDE_INTERVAL);
                     if (isDayWithContinue(position)) {

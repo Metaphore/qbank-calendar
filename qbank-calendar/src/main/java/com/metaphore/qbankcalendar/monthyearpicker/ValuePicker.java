@@ -62,6 +62,8 @@ class ValuePicker extends FrameLayout implements CompoundButton.OnCheckedChangeL
 
     public void setText(CharSequence text) {
         valueButton.setText(text);
+        invalidate();
+        requestLayout();
     }
 
     public void setSelectedState(boolean selected) {
@@ -81,6 +83,7 @@ class ValuePicker extends FrameLayout implements CompoundButton.OnCheckedChangeL
             pickerItemListener.onSelected(this);
         }
 
+        invalidate();
         requestLayout();
     }
 

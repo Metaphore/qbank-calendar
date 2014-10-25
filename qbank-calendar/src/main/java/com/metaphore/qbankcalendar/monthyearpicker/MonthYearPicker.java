@@ -67,8 +67,6 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
         String year =  CommonUtils.YEAR_FORMAT.format(time);
         monthPicker.setText(month);
         yearPicker.setText(year);
-        invalidate();
-        requestLayout();
     }
 
     @Override

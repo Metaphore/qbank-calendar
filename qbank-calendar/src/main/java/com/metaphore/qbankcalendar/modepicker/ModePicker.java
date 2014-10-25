@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
+import com.metaphore.qbankcalendar.EditMode;
 import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
@@ -23,6 +24,8 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
     private ModeItem modeBeginItem;
     private ModeItem modeEndItem;
 
+    private EditMode editMode;
+
     private boolean broadcasting;
 
     public ModePicker(Context context, AttributeSet attrs) {
@@ -35,6 +38,12 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         modeEndItem = ((ModeItem) findViewById(R.id.mode_period_end));
         modeBeginItem.setOnCheckedChangeListener(this);
         modeEndItem.setOnCheckedChangeListener(this);
+
+        if (modeBeginItem.isChecked()) {
+            editMode = EditMode.BEGIN_DATE;
+        } else {
+            editMode = EditMode.END_DATE;
+        }
     }
 
     public void setModeChangeListener(ModePickerListener listener) {
@@ -48,6 +57,8 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
 
         if (modeItem == modeBeginItem) {
             Log.d(LOG_TAG, "Mode changed to \"Begin of period\"");
+
+            editMode = EditMode.BEGIN_DATE;
             modeEndItem.setChecked(false);
             if (modePickerListener != null) {
                 modePickerListener.onBeginPeriodModeSet();
@@ -55,6 +66,8 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         }
         if (modeItem == modeEndItem) {
             Log.d(LOG_TAG, "Mode changed to \"End of period\"");
+
+            editMode = EditMode.END_DATE;
             modeBeginItem.setChecked(false);
             if (modePickerListener != null) {
                 modePickerListener.onEndPeriodModeSet();
@@ -67,6 +80,10 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
     public void setSelectedInterval(Calendar begin, Calendar end) {
         modeBeginItem.setSelectedDate(begin);
         modeEndItem.setSelectedDate(end);
+    }
+
+    public EditMode getEditMode() {
+        return editMode;
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

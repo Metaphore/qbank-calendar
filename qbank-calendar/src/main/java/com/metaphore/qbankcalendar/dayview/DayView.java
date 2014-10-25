@@ -12,6 +12,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import com.metaphore.qbankcalendar.EditMode;
 import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
@@ -67,10 +68,11 @@ public class DayView extends FrameLayout implements AdapterView.OnItemClickListe
     }
 
     public void setSelectedDate(Calendar date) {
-        Calendar beginDate = dayViewAdapter.getBeginDate();
-        Calendar endDate = dayViewAdapter.getEndDate();
+        dayViewAdapter.setSelectedDate(date);
+    }
 
-        dayViewAdapter.setSelectionInterval(date, endDate);
+    public void setEditMode(EditMode editMode) {
+        dayViewAdapter.setEditMode(editMode);
     }
 
     @Override

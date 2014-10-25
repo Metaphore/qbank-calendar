@@ -39,21 +39,6 @@ public class QBankCalendarView extends FrameLayout implements
         dayPicker.setDateViewListener(this);
     }
 
-//    private CalendarData initializeCalendarData() {
-//        Calendar currentDate = Calendar.getInstance();
-//        Calendar beginDate = Calendar.getInstance();
-//        Calendar endDate = Calendar.getInstance();
-//        endDate.add(Calendar.MONTH, 1);
-//
-//        return new CalendarData(
-//                currentDate,
-//                beginDate,
-//                endDate,
-//                CalendarData.DatePickMode.BEGIN,
-//                CalendarData.MonthYearMode.MONTH
-//        );
-//    }
-
     public void setSelectedInterval(Calendar begin, Calendar end) {
         modePicker.setSelectedInterval(begin, end);
         dayPicker.setSelectedInterval(begin, end);
@@ -62,19 +47,13 @@ public class QBankCalendarView extends FrameLayout implements
     @Override
     public void onBeginPeriodModeSet() {
         Log.d(LOG_TAG, "onBeginPeriodModeSet()");
-
+        dayPicker.setEditMode(EditMode.BEGIN_DATE);
     }
 
     @Override
     public void onEndPeriodModeSet() {
         Log.d(LOG_TAG, "onEndPeriodModeSet()");
-
-    }
-
-    @Override
-    public void onNextYearClicked() {
-        Log.d(LOG_TAG, "onNextYearClicked()");
-
+        dayPicker.setEditMode(EditMode.END_DATE);
     }
 
     @Override
@@ -87,7 +66,11 @@ public class QBankCalendarView extends FrameLayout implements
     public void onPreviousMonthClicked() {
         Log.d(LOG_TAG, "onPreviousMonthClicked()");
         showPreviousMonth();
+    }
 
+    @Override
+    public void onNextYearClicked() {
+        Log.d(LOG_TAG, "onNextYearClicked()");
     }
 
     @Override
