@@ -11,6 +11,7 @@ import com.metaphore.qbankcalendar.CommonUtils;
 import com.metaphore.qbankcalendar.R;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 class ModeItem extends FrameLayout implements Checkable {
@@ -57,8 +58,10 @@ class ModeItem extends FrameLayout implements Checkable {
         }
     }
 
-    public void setSelectedDate(Date date) {
-        selectedDate.setText(CommonUtils.DATE_FORMAT.format(date));
+    public void setSelectedDate(Calendar date) {
+        selectedDate.setText(CommonUtils.DATE_FORMAT.format(date.getTime()));
+        invalidate();
+        requestLayout();
     }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {

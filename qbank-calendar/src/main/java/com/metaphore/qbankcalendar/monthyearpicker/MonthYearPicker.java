@@ -10,7 +10,11 @@ import android.view.LayoutInflater;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
+import com.metaphore.qbankcalendar.CommonUtils;
 import com.metaphore.qbankcalendar.R;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerItemListener {
 
@@ -31,6 +35,9 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
 
         monthPicker = ((ValuePicker) findViewById(R.id.month_picker));
         yearPicker = ((ValuePicker) findViewById(R.id.year_picker));
+
+        // Set today
+        setSelectedDate(Calendar.getInstance());
 
         monthPicker.setPickerItemListener(this);
         yearPicker.setPickerItemListener(this);
@@ -54,12 +61,14 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
         this.monthYearPickerListener = listener;
     }
 
-    public void setMonth(CharSequence month) {
+    public void setSelectedDate(Calendar date) {
+        Date time = date.getTime();
+        String month = CommonUtils.MONTH_FORMAT.format(time);
+        String year =  CommonUtils.YEAR_FORMAT.format(time);
         monthPicker.setText(month);
-    }
-
-    public void setYear(int year) {
-        yearPicker.setText(String.valueOf(year));
+        yearPicker.setText(year);
+        invalidate();
+        requestLayout();
     }
 
     @Override

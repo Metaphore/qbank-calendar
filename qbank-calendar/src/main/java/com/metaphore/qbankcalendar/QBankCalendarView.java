@@ -39,7 +39,23 @@ public class QBankCalendarView extends FrameLayout implements
         dayPicker.setDateViewListener(this);
     }
 
+//    private CalendarData initializeCalendarData() {
+//        Calendar currentDate = Calendar.getInstance();
+//        Calendar beginDate = Calendar.getInstance();
+//        Calendar endDate = Calendar.getInstance();
+//        endDate.add(Calendar.MONTH, 1);
+//
+//        return new CalendarData(
+//                currentDate,
+//                beginDate,
+//                endDate,
+//                CalendarData.DatePickMode.BEGIN,
+//                CalendarData.MonthYearMode.MONTH
+//        );
+//    }
+
     public void setSelectedInterval(Calendar begin, Calendar end) {
+        modePicker.setSelectedInterval(begin, end);
         dayPicker.setSelectedInterval(begin, end);
     }
 
@@ -83,7 +99,8 @@ public class QBankCalendarView extends FrameLayout implements
     public void onDateSelected(Calendar date) {
         Log.d(LOG_TAG, "onDateSelected() " + date.getTime());
         dayPicker.setSelectedDate(date);
-
+        //TODO ...depends on mode
+        modePicker.setSelectedInterval(date, dayPicker.getEndDate());
     }
 
     @Override
@@ -106,6 +123,7 @@ public class QBankCalendarView extends FrameLayout implements
         newCurrentDate.add(Calendar.MONTH, 1);
 
         dayPicker.setCurrentDate(newCurrentDate);
+        monthYearPicker.setSelectedDate(newCurrentDate);
     }
 
     private void showPreviousMonth() {
@@ -116,5 +134,6 @@ public class QBankCalendarView extends FrameLayout implements
         newCurrentDate.add(Calendar.MONTH, -1);
 
         dayPicker.setCurrentDate(newCurrentDate);
+        monthYearPicker.setSelectedDate(newCurrentDate);
     }
 }

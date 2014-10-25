@@ -9,6 +9,8 @@ import java.util.Calendar;
 
 public class CommonUtils {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM");
+    public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 
     public static Calendar cpy(Calendar original) {
         Calendar copy = Calendar.getInstance(original.getTimeZone());

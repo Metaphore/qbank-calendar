@@ -12,6 +12,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import com.metaphore.qbankcalendar.R;
 
+import java.util.Calendar;
+
 public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener {
 
     private static final String LOG_TAG = ModePicker.class.getSimpleName();
@@ -33,20 +35,6 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         modeEndItem = ((ModeItem) findViewById(R.id.mode_period_end));
         modeBeginItem.setOnCheckedChangeListener(this);
         modeEndItem.setOnCheckedChangeListener(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @Override
-    public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
-        super.onInitializeAccessibilityEvent(event);
-        event.setClassName(ModePicker.class.getName());
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @Override
-    public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
-        super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(ModePicker.class.getName());
     }
 
     public void setModeChangeListener(ModePickerListener listener) {
@@ -74,6 +62,25 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         }
 
         broadcasting = false;
+    }
+
+    public void setSelectedInterval(Calendar begin, Calendar end) {
+        modeBeginItem.setSelectedDate(begin);
+        modeEndItem.setSelectedDate(end);
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @Override
+    public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(ModePicker.class.getName());
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @Override
+    public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(ModePicker.class.getName());
     }
 
     public interface ModePickerListener {

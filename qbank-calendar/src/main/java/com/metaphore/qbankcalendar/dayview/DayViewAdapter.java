@@ -192,6 +192,8 @@ class DayViewAdapter extends BaseAdapter {
      * current month and next month.
      */
     private ArrayList<Calendar> getFullWeeks(int year, int month) {
+        //TODO переписать этот метод, так чтобы не использовать внешнюю либу
+
         int startDayOfWeek = 2; // monday
         boolean sixWeeksInCalendar = true;
 
