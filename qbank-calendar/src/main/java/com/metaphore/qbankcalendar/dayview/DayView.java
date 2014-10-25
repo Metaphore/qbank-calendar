@@ -6,15 +6,18 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 
-public class DayView extends FrameLayout {
+//TODO реализовать разделение на два режима: редактирование начала периода и конца
+public class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
     private static final String LOG_TAG = DayView.class.getSimpleName();
 
     private final GridView dayGrid;
@@ -33,18 +36,50 @@ public class DayView extends FrameLayout {
         dayGrid = ((GridView) findViewById(R.id.day_grid));
         dayViewAdapter = new DayViewAdapter(context);
         dayGrid.setAdapter(dayViewAdapter);
+
+        dayGrid.setOnItemClickListener(this);
     }
 
     public void setSelectedInterval(Calendar begin, Calendar end) {
         dayViewAdapter.setSelectionInterval(begin, end);
+        dayGrid.invalidateViews();
     }
 
-    public void showDate(Calendar date) {
+    public void setCurrentDate(Calendar date) {
         dayViewAdapter.setCurrentDate(date);
+        dayGrid.invalidateViews();
+    }
+
+    public Calendar getCurrentDate() {
+        return dayViewAdapter.getCurrentDate();
+    }
+
+    public Calendar getEndDate() {
+        return dayViewAdapter.getEndDate();
+    }
+
+    public Calendar getBeginDate() {
+        return dayViewAdapter.getBeginDate();
     }
 
     public void setDateViewListener(DateViewListener listener) {
         dateViewListener = listener;
+    }
+
+    public void setSelectedDate(Calendar date) {
+        Calendar beginDate = dayViewAdapter.getBeginDate();
+        Calendar endDate = dayViewAdapter.getEndDate();
+
+        dayViewAdapter.setSelectionInterval(date, endDate);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Calendar newDate = ((Calendar) dayViewAdapter.getItem(position));
+
+        if (dateViewListener != null) {
+            dateViewListener.onDateSelected(newDate);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -62,5 +97,8 @@ public class DayView extends FrameLayout {
     }
 
     public interface DateViewListener {
+        void onDateSelected(Calendar date);
+        void onShowNextMonth();
+        void onShowPreviousMonth();
     }
 }

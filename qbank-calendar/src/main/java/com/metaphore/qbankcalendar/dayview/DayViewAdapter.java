@@ -18,7 +18,6 @@ class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
     public static final int COLOR_BG_INSIDE_INTERVAL = Color.parseColor("#f1ffcc");
     public static final int COLOR_BG_INTERVAL_EDGE = Color.parseColor("#daefa0");
-    public static final int COLOR_TEXT_OUTSIDE_INTERVAL = Color.parseColor("#f2f2f2");
 
     private final Context context;
     private final Calendar beginDate = Calendar.getInstance();
@@ -34,6 +33,10 @@ class DayViewAdapter extends BaseAdapter {
 
         endDate.add(Calendar.MONTH, 1);
         generateWeeksData();
+    }
+
+    public CalendarComparator getComparator() {
+        return comparator;
     }
 
     public Calendar getCurrentDate() {
@@ -60,7 +63,7 @@ class DayViewAdapter extends BaseAdapter {
         endDate.setTime(end.getTime());
 
         generateWeeksData();
-        notifyDataSetInvalidated();
+        notifyDataSetChanged();
     }
 
     private void generateWeeksData() {
@@ -94,7 +97,7 @@ class DayViewAdapter extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        return isInCurrentMonth(position) && isInsideInterval(position);
+        return isInCurrentMonth(position) && !isIntervalEdge(position);
     }
 
     private boolean isInCurrentMonth(int position) {
@@ -127,7 +130,7 @@ class DayViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (view == null) {
+//        if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.day_item, parent, false);
 
@@ -138,9 +141,9 @@ class DayViewAdapter extends BaseAdapter {
             viewHolder.container = view.findViewById(R.id.container);
 
             view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
+//        } else {
+//            viewHolder = (ViewHolder) view.getTag();
+//        }
 
         Calendar date = (Calendar) getItem(position);
 
@@ -156,8 +159,6 @@ class DayViewAdapter extends BaseAdapter {
                         viewHolder.continueMarker.setVisibility(View.VISIBLE);
                     }
                 }
-            } else {
-                viewHolder.dayNumber.setTextColor(COLOR_TEXT_OUTSIDE_INTERVAL);
             }
         } else {
             viewHolder.dayNumber.setVisibility(View.INVISIBLE);
@@ -166,7 +167,7 @@ class DayViewAdapter extends BaseAdapter {
         return view;
     }
 
-    private class CalendarComparator implements Comparator<Calendar> {
+    public static class CalendarComparator implements Comparator<Calendar> {
         @Override
         public int compare(Calendar l, Calendar r) {
             int yearDif = l.get(Calendar.YEAR) - r.get(Calendar.YEAR);
@@ -273,4 +274,3 @@ class DayViewAdapter extends BaseAdapter {
         return cal;
     }
 }
-;

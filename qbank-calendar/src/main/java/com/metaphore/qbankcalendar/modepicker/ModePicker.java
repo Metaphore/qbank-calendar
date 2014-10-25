@@ -62,14 +62,14 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
             Log.d(LOG_TAG, "Mode changed to \"Begin of period\"");
             modeEndItem.setChecked(false);
             if (modePickerListener != null) {
-                modePickerListener.onPeriodBeginMode();
+                modePickerListener.onBeginPeriodModeSet();
             }
         }
         if (modeItem == modeEndItem) {
             Log.d(LOG_TAG, "Mode changed to \"End of period\"");
             modeBeginItem.setChecked(false);
             if (modePickerListener != null) {
-                modePickerListener.onPeriodEndMode();
+                modePickerListener.onEndPeriodModeSet();
             }
         }
 
@@ -77,7 +77,7 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
     }
 
     public interface ModePickerListener {
-        void onPeriodBeginMode();
-        void onPeriodEndMode();
+        void onBeginPeriodModeSet();
+        void onEndPeriodModeSet();
     }
 }

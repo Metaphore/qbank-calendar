@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.metaphore.qbankcalendar.modepicker.ModePicker
+    <com.metaphore.qbankcalendar.QBankCalendarView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-    <com.metaphore.qbankcalendar.monthyearpicker.MonthYearPicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-    <com.metaphore.qbankcalendar.dayview.DayView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
+            android:id="@+id/calendar_view"/>
 
     <Button
             android:layout_width="match_parent"
@@ -26,6 +17,6 @@
             android:layout_marginTop="40px"
             android:layout_marginBottom="33px"
             android:id="@+id/button_ok"
-            android:text="Ок"/>
+            android:text="@string/ok"/>
 
 </LinearLayout>
