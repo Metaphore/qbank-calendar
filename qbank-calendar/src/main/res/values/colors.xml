@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_base">#fff</color>
-    <color name="background_light">#f2f2f2</color>
 
     <color name="mode_item_bck">#f2f2f2</color>
     <color name="mode_item_bck_checked">#0000</color>
 
     <color name="month_year_item_bck">#f2f2f2</color>
     <color name="month_year_item_bck_checked">#88b824</color>
+
+    <color name="date_picker_regular">#fff</color>
+    <color name="date_picker_grids">#f2f2f2</color>
+    <color name="date_picker_bg_inside_interval">#f1ffcc</color>
+    <color name="date_picker_bg_edge_active">#88b824</color>
+    <color name="date_picker_bg_edge_passive">#daefa0</color>
 </resources>

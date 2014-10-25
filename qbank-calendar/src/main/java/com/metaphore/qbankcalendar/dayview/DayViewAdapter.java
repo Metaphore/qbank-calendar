@@ -17,9 +17,11 @@ import java.util.Comparator;
 
 class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
-    public static final int COLOR_BG_INSIDE_INTERVAL = Color.parseColor("#f1ffcc");
-    public static final int COLOR_BG_INTERVAL_EDGE_ACTIVE = Color.parseColor("#88b824");
-    public static final int COLOR_BG_INTERVAL_EDGE_PASSIVE = Color.parseColor("#daefa0");
+
+    private final int colorBgRegular;
+    private final int colorBgInsideInterval;
+    private final int colorBgIntervalEdgeActive;
+    private final int colorBgIntervalEdgePassive;
 
     private final Context context;
     private final Calendar beginDate = Calendar.getInstance();
@@ -33,6 +35,11 @@ class DayViewAdapter extends BaseAdapter {
 
     DayViewAdapter(Context context) {
         this.context = context;
+
+        colorBgRegular = context.getResources().getColor(R.color.date_picker_regular);
+        colorBgInsideInterval = context.getResources().getColor(R.color.date_picker_bg_inside_interval);
+        colorBgIntervalEdgeActive = context.getResources().getColor(R.color.date_picker_bg_edge_active);
+        colorBgIntervalEdgePassive = context.getResources().getColor(R.color.date_picker_bg_edge_passive);
 
         endDate.add(Calendar.MONTH, 1);
         generateWeeksData();
@@ -177,7 +184,7 @@ class DayViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
-//        if (view == null) {
+        if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.day_item, parent, false);
 
@@ -188,10 +195,14 @@ class DayViewAdapter extends BaseAdapter {
             viewHolder.container = view.findViewById(R.id.container);
 
             view.setTag(viewHolder);
-//        } else {
-//            viewHolder = (ViewHolder) view.getTag();
-//        }
-        //TODO reset full view state and use ViewHolder
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+        // Reset view state to default
+        viewHolder.container.setBackgroundColor(colorBgRegular);
+        viewHolder.dayNumber.setVisibility(View.VISIBLE);
+        viewHolder.continueMarker.setVisibility(View.INVISIBLE);
 
         Calendar date = (Calendar) getItem(position);
 
@@ -203,11 +214,11 @@ class DayViewAdapter extends BaseAdapter {
                 if (isIntervalEdge(position)) {
                     viewHolder.container.setBackgroundColor(
                             isActiveIntervalEdge(position) ?
-                                    COLOR_BG_INTERVAL_EDGE_ACTIVE :
-                                    COLOR_BG_INTERVAL_EDGE_PASSIVE
+                                    colorBgIntervalEdgeActive :
+                                    colorBgIntervalEdgePassive
                     );
                 } else {
-                    viewHolder.container.setBackgroundColor(COLOR_BG_INSIDE_INTERVAL);
+                    viewHolder.container.setBackgroundColor(colorBgInsideInterval);
                     if (isDayWithContinue(position)) {
                         viewHolder.continueMarker.setVisibility(View.VISIBLE);
                     }

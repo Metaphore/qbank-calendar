@@ -72,13 +72,11 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
     @Override
     public void onNextPressed(ValuePicker valuePicker) {
         if (valuePicker == monthPicker) {
-            Log.d(LOG_TAG, "Next month pressed");
             if (monthYearPickerListener != null) {
                 monthYearPickerListener.onNextMonthClicked();
             }
         }
         if (valuePicker == yearPicker) {
-            Log.d(LOG_TAG, "Next year pressed");
             if (monthYearPickerListener != null) {
                 monthYearPickerListener.onNextYearClicked();
             }
@@ -88,13 +86,11 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
     @Override
     public void onPreviousPressed(ValuePicker valuePicker) {
         if (valuePicker == monthPicker) {
-            Log.d(LOG_TAG, "Previous month pressed");
             if (monthYearPickerListener != null) {
                 monthYearPickerListener.onPreviousMonthClicked();
             }
         }
         if (valuePicker == yearPicker) {
-            Log.d(LOG_TAG, "Previous year pressed");
             if (monthYearPickerListener != null) {
                 monthYearPickerListener.onPreviousYearClicked();
             }
@@ -107,11 +103,9 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
         broadcasting = true;
 
         if (valuePicker == monthPicker) {
-            Log.d(LOG_TAG, "Month picker selected");
             yearPicker.setSelectedState(false);
         }
         if (valuePicker == yearPicker) {
-            Log.d(LOG_TAG, "Year picker selected");
             monthPicker.setSelectedState(false);
         }
 

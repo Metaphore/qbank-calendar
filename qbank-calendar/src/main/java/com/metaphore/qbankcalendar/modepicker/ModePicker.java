@@ -56,8 +56,6 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         broadcasting = true;
 
         if (modeItem == modeBeginItem) {
-            Log.d(LOG_TAG, "Mode changed to \"Begin of period\"");
-
             editMode = EditMode.BEGIN_DATE;
             modeEndItem.setChecked(false);
             if (modePickerListener != null) {
@@ -65,8 +63,6 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
             }
         }
         if (modeItem == modeEndItem) {
-            Log.d(LOG_TAG, "Mode changed to \"End of period\"");
-
             editMode = EditMode.END_DATE;
             modeBeginItem.setChecked(false);
             if (modePickerListener != null) {
