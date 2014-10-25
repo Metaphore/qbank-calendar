@@ -43,11 +43,11 @@ public class QBankCalendarView extends FrameLayout implements
         dayPicker.setSelectedInterval(begin, end);
     }
 
-    public Calendar getBeginInterval() {
+    public Calendar getBeginDate() {
         return dayPicker.getBeginDate();
     }
 
-    public Calendar getEndInterval() {
+    public Calendar getEndDate() {
         return dayPicker.getEndDate();
     }
 
@@ -98,7 +98,7 @@ public class QBankCalendarView extends FrameLayout implements
         changeCurrentDate(Calendar.MONTH, -1);
     }
 
-    /** Convenient method to change current (visible) date */
+    /** Convenience method to change current (visible) date */
     private void changeCurrentDate(int calendarField, int value) {
         if (calendarField != Calendar.YEAR && calendarField != Calendar.MONDAY) {
             throw new IllegalArgumentException("calendarField should be one of [Calendar.YEAR, Calendar.MONDAY]");
