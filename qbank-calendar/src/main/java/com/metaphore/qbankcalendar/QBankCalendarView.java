@@ -2,7 +2,6 @@ package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import com.metaphore.qbankcalendar.dayview.DayView;
@@ -46,75 +45,60 @@ public class QBankCalendarView extends FrameLayout implements
 
     @Override
     public void onBeginPeriodModeSet() {
-        Log.d(LOG_TAG, "onBeginPeriodModeSet()");
         dayPicker.setEditMode(EditMode.BEGIN_DATE);
     }
 
     @Override
     public void onEndPeriodModeSet() {
-        Log.d(LOG_TAG, "onEndPeriodModeSet()");
         dayPicker.setEditMode(EditMode.END_DATE);
     }
 
     @Override
     public void onNextMonthClicked() {
-        Log.d(LOG_TAG, "onNextMonthClicked()");
-        showNextMonth();
+        changeCurrentDate(Calendar.MONTH, 1);
     }
 
     @Override
     public void onPreviousMonthClicked() {
-        Log.d(LOG_TAG, "onPreviousMonthClicked()");
-        showPreviousMonth();
+        changeCurrentDate(Calendar.MONTH, -1);
     }
 
     @Override
     public void onNextYearClicked() {
-        Log.d(LOG_TAG, "onNextYearClicked()");
+        changeCurrentDate(Calendar.YEAR, 1);
     }
 
     @Override
     public void onPreviousYearClicked() {
-        Log.d(LOG_TAG, "onPreviousYearClicked()");
+        changeCurrentDate(Calendar.YEAR, -1);
     }
 
     @Override
     public void onDateSelected(Calendar date) {
-        Log.d(LOG_TAG, "onDateSelected() " + date.getTime());
         dayPicker.setSelectedDate(date);
-        //TODO ...depends on mode
-        modePicker.setSelectedInterval(date, dayPicker.getEndDate());
+        modePicker.setSelectedInterval(dayPicker.getBeginDate(), dayPicker.getEndDate());
     }
 
     @Override
     public void onShowNextMonth() {
-        Log.d(LOG_TAG, "onShowNextMonth()");
-        showNextMonth();
+        changeCurrentDate(Calendar.MONTH, 1);
     }
 
     @Override
     public void onShowPreviousMonth() {
-        Log.d(LOG_TAG, "onShowPreviousMonth()");
-        showPreviousMonth();
+        changeCurrentDate(Calendar.MONTH, -1);
     }
 
-    private void showNextMonth() {
+    private void changeCurrentDate(int calendarField, int value) {
+        if (calendarField != Calendar.YEAR && calendarField != Calendar.MONDAY) {
+            throw new IllegalArgumentException("calendarField should be one of [Calendar.YEAR, Calendar.MONDAY]");
+        }
+
         Calendar currentDate = dayPicker.getCurrentDate();
 
         Calendar newCurrentDate = tmpCal;
         newCurrentDate.setTime(currentDate.getTime());
-        newCurrentDate.add(Calendar.MONTH, 1);
-
-        dayPicker.setCurrentDate(newCurrentDate);
-        monthYearPicker.setSelectedDate(newCurrentDate);
-    }
-
-    private void showPreviousMonth() {
-        Calendar currentDate = dayPicker.getCurrentDate();
-
-        Calendar newCurrentDate = tmpCal;
-        newCurrentDate.setTime(currentDate.getTime());
-        newCurrentDate.add(Calendar.MONTH, -1);
+        newCurrentDate.add(calendarField, value);
 
         dayPicker.setCurrentDate(newCurrentDate);
         monthYearPicker.setSelectedDate(newCurrentDate);
