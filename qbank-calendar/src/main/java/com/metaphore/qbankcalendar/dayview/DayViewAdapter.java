@@ -5,9 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import com.metaphore.qbankcalendar.CalendarUtils;
 import com.metaphore.qbankcalendar.EditMode;
 import com.metaphore.qbankcalendar.R;
-import hirondelle.date4j.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,9 +82,9 @@ class DayViewAdapter extends BaseAdapter {
         if (comparator.compare(beginDate, endDate) >= 0) {
             throw new IllegalStateException("Begin date cannot be equal or greater than end date.");
         }
-        fullWeeks = getFullWeeks(
+        fullWeeks = CalendarUtils.getFullWeeks(
                 currentMonth.get(Calendar.YEAR),
-                currentMonth.get(Calendar.MONTH) + 1);
+                currentMonth.get(Calendar.MONTH));
     }
 
     @Override
@@ -171,94 +171,5 @@ class DayViewAdapter extends BaseAdapter {
             int dayDif = l.get(Calendar.DAY_OF_YEAR) - r.get(Calendar.DAY_OF_YEAR);
             return dayDif;
         }
-    }
-
-    /**
-     * Retrieve all the dates for a given calendar month Include previous month,
-     * current month and next month.
-     */
-    private ArrayList<Calendar> getFullWeeks(int year, int month) {
-        //TODO переписать этот метод, так чтобы не использовать внешнюю либу
-
-        int startDayOfWeek = 2; // monday
-        boolean sixWeeksInCalendar = true;
-
-        ArrayList<DateTime> datetimeList = new ArrayList<>();
-
-        DateTime firstDateOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
-        DateTime lastDateOfMonth = firstDateOfMonth.plusDays(firstDateOfMonth
-                .getNumDaysInMonth() - 1);
-
-        // Add dates of first week from previous month
-        int weekdayOfFirstDate = firstDateOfMonth.getWeekDay();
-
-        // If weekdayOfFirstDate smaller than startDayOfWeek
-        // For e.g: weekdayFirstDate is Monday, startDayOfWeek is Tuesday
-        // increase the weekday of FirstDate because it's in the future
-        if (weekdayOfFirstDate < startDayOfWeek) {
-            weekdayOfFirstDate += 7;
-        }
-
-        while (weekdayOfFirstDate > 0) {
-            DateTime dateTime = firstDateOfMonth.minusDays(weekdayOfFirstDate
-                    - startDayOfWeek);
-            if (!dateTime.lt(firstDateOfMonth)) {
-                break;
-            }
-
-            datetimeList.add(dateTime);
-            weekdayOfFirstDate--;
-        }
-
-        // Add dates of current month
-        for (int i = 0; i < lastDateOfMonth.getDay(); i++) {
-            datetimeList.add(firstDateOfMonth.plusDays(i));
-        }
-
-        // Add dates of last week from next month
-        int endDayOfWeek = startDayOfWeek - 1;
-
-        if (endDayOfWeek == 0) {
-            endDayOfWeek = 7;
-        }
-
-        if (lastDateOfMonth.getWeekDay() != endDayOfWeek) {
-            int i = 1;
-            while (true) {
-                DateTime nextDay = lastDateOfMonth.plusDays(i);
-                datetimeList.add(nextDay);
-                i++;
-                if (nextDay.getWeekDay() == endDayOfWeek) {
-                    break;
-                }
-            }
-        }
-
-        // Add more weeks to fill remaining rows
-        if (sixWeeksInCalendar) {
-            int size = datetimeList.size();
-            int row = size / 7;
-            int numOfDays = (6 - row) * 7;
-            DateTime lastDateTime = datetimeList.get(size - 1);
-            for (int i = 1; i <= numOfDays; i++) {
-                DateTime nextDateTime = lastDateTime.plusDays(i);
-                datetimeList.add(nextDateTime);
-            }
-        }
-
-        ArrayList<Calendar> result = new ArrayList<>();
-        for (DateTime dateTime : datetimeList) {
-            result.add(prepareCalendar(dateTime));
-        }
-        return result;
-    }
-
-    private Calendar prepareCalendar(DateTime dateTime) {
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(Calendar.YEAR, dateTime.getYear());
-        cal.set(Calendar.MONTH, dateTime.getMonth());
-        cal.set(Calendar.DAY_OF_YEAR, dateTime.getDayOfYear());
-        return cal;
     }
 }

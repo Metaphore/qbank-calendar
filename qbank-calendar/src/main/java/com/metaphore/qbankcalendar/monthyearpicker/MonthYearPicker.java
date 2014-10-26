@@ -5,12 +5,11 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
-import com.metaphore.qbankcalendar.CommonUtils;
+import com.metaphore.qbankcalendar.CalendarUtils;
 import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
@@ -63,8 +62,8 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
 
     public void setSelectedDate(Calendar date) {
         Date time = date.getTime();
-        String month = CommonUtils.MONTH_FORMAT.format(time);
-        String year =  CommonUtils.YEAR_FORMAT.format(time);
+        String month = CalendarUtils.MONTH_FORMAT.format(time);
+        String year =  CalendarUtils.YEAR_FORMAT.format(time);
         monthPicker.setText(month);
         yearPicker.setText(year);
     }

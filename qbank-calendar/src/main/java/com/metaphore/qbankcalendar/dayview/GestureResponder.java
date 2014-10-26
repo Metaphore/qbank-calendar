@@ -6,7 +6,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
-public class GestureResponder extends FrameLayout {
+class GestureResponder extends FrameLayout {
 
     private final GestureDetector gestureDetector;
 

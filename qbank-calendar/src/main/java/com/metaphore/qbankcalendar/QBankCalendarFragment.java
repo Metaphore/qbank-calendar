@@ -49,8 +49,8 @@ public class QBankCalendarFragment extends DialogFragment {
         Calendar end = calendarView.getEndDate();
 
         Log.d(LOG_TAG, "Interval dates was changed. New interval from " +
-                CommonUtils.DATE_FORMAT.format(begin.getTime()) + " to " +
-                CommonUtils.DATE_FORMAT.format(end.getTime()));
+                CalendarUtils.DATE_FORMAT.format(begin.getTime()) + " to " +
+                CalendarUtils.DATE_FORMAT.format(end.getTime()));
 
         // Notify listener
         if (listener != null) {

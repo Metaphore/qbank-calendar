@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.metaphore.qbankcalendar.CommonUtils;
+import com.metaphore.qbankcalendar.CalendarUtils;
 import com.metaphore.qbankcalendar.R;
 
 import java.text.ParseException;
@@ -51,14 +51,14 @@ class ModeItem extends FrameLayout implements Checkable {
 
     public Date getSelectedDate() {
         try {
-            return CommonUtils.DATE_FORMAT.parse(selectedDate.getText().toString());
+            return CalendarUtils.DATE_FORMAT.parse(selectedDate.getText().toString());
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void setSelectedDate(Calendar date) {
-        selectedDate.setText(CommonUtils.DATE_FORMAT.format(date.getTime()));
+        selectedDate.setText(CalendarUtils.DATE_FORMAT.format(date.getTime()));
         invalidate();
         requestLayout();
     }
