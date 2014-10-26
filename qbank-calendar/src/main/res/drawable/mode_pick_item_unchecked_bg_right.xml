@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:top="@dimen/mode_pick_item_shadow_mirror"
+            android:right="@dimen/mode_pick_item_shadow_mirror">
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/mode_item_bg_unchecked"/>
+            <stroke
+                    android:width="@dimen/mode_pick_item_shadow"
+                    android:color="@color/mode_item_unchecked_shadow"/>
+        </shape>
+    </item>
+</layer-list>

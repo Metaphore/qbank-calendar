@@ -7,4 +7,7 @@
     <dimen name="week_day_vertical_margin">4dp</dimen>
     <dimen name="button_roundness">3dp</dimen>
 
+    <dimen name="mode_pick_item_shadow">1dp</dimen>
+    <dimen name="mode_pick_item_shadow_mirror">-1dp</dimen>
+
 </resources>

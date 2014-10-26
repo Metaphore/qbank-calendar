@@ -46,7 +46,6 @@ class ModeItem extends FrameLayout implements Checkable {
 
         modeName.setText(modeNameText);
 
-        setBackgroundResource(R.drawable.mode_pick_item_background);
         setClickable(true);
     }
 

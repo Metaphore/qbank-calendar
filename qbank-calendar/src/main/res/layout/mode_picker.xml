@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/mode_period_begin"
+            android:background="@drawable/mode_pick_item_bg_left"
             custom:mode_name="@string/period_begin"
             custom:text_color="@color/mode_picker_text"
             android:checked="true"/>
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/mode_period_end"
+            android:background="@drawable/mode_pick_item_bg_right"
             custom:mode_name="@string/period_end"
             custom:text_color="@color/mode_picker_text"/>
 

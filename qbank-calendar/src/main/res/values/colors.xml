@@ -2,8 +2,9 @@
 <resources>
     <color name="background_base">#fff</color>
 
-    <color name="mode_item_bck">#f2f2f2</color>
-    <color name="mode_item_bck_checked">#0000</color>
+    <color name="mode_item_bg_checked">#0000</color>
+    <color name="mode_item_bg_unchecked">#f2f2f2</color>
+    <color name="mode_item_unchecked_shadow">#bababa</color>
 
     <color name="month_year_item_bck">#f2f2f2</color>
     <color name="month_year_item_bck_checked">#88b824</color>
