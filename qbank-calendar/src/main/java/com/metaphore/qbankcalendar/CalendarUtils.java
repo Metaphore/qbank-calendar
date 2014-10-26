@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static java.util.Calendar.*;
 
@@ -83,13 +84,13 @@ public class CalendarUtils {
     }
 
     public static Calendar cpy(Calendar source) {
-        Calendar result = Calendar.getInstance();
+        Calendar result = GregorianCalendar.getInstance();
         result.setTime(source.getTime());
         return result;
     }
 
     private static Calendar createFirstDayOfMonth(int year, int month) {
-        Calendar result = Calendar.getInstance();
+        Calendar result = GregorianCalendar.getInstance();
         result.set(YEAR, year);
         result.set(MONTH, month);
         result.set(DAY_OF_MONTH, result.getActualMinimum(Calendar.DAY_OF_MONTH));
@@ -97,7 +98,7 @@ public class CalendarUtils {
     }
 
     private static Calendar createLastDayOfMonth(int year, int month) {
-        Calendar result = Calendar.getInstance();
+        Calendar result = GregorianCalendar.getInstance();
         result.set(YEAR, year);
         result.set(MONTH, month);
         result.set(DAY_OF_MONTH, result.getActualMaximum(Calendar.DAY_OF_MONTH));

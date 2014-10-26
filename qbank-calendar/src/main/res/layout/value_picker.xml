@@ -8,8 +8,8 @@
         android:layout_height="wrap_content">
 
     <com.metaphore.qbankcalendar.dayview.TintableImageView
-            android:layout_width="@dimen/row_width"
-            android:layout_height="@dimen/row_width"
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
             android:id="@+id/arrow_left"
             android:src="@drawable/arrow_left"
@@ -18,7 +18,7 @@
     
     <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
             android:layout_width="0dp"
-            android:layout_height="@dimen/row_width"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:id="@+id/value_button"
@@ -26,9 +26,10 @@
             android:gravity="center"
             android:text="Month/Year"
             android:textColor="@color/button_month_year_text"/>
+
     <com.metaphore.qbankcalendar.dayview.TintableImageView
-            android:layout_width="@dimen/row_width"
-            android:layout_height="@dimen/row_width"
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
             android:id="@+id/arrow_right"
             android:src="@drawable/arrow_right"

@@ -110,6 +110,16 @@ class DayCell extends FrameLayout {
     }
 
     @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+
+        if (textColor != null) {
+            int colorForState = textColor.getColorForState(getDrawableState(), 0);
+            dayNumber.setTextColor(colorForState);
+        }
+    }
+
+    @Override
     protected int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
         if (withinMonth) {
@@ -128,15 +138,5 @@ class DayCell extends FrameLayout {
             mergeDrawableStates(drawableState, PASSIVE_EDGE);
         }
         return drawableState;
-    }
-
-    @Override
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-
-        if (textColor != null) {
-            int colorForState = textColor.getColorForState(getDrawableState(), 0);
-            dayNumber.setTextColor(colorForState);
-        }
     }
 }

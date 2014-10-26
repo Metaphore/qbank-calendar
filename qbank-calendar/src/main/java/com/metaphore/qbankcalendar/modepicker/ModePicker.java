@@ -96,6 +96,19 @@ public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeL
         info.setClassName(ModePicker.class.getName());
     }
 
+    public void setSelectedMode(EditMode editMode) {
+        switch (editMode) {
+            case BEGIN_DATE:
+                modeBeginItem.toggle();
+                break;
+            case END_DATE:
+                modeEndItem.toggle();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected editMode: " + editMode);
+        }
+    }
+
     public interface ModePickerListener {
         void onBeginPeriodModeSet();
         void onEndPeriodModeSet();

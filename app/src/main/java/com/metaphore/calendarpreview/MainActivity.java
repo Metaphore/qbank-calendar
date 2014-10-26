@@ -3,15 +3,16 @@ package com.metaphore.calendarpreview;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
-import com.metaphore.qbankcalendar.QBankCalendarFragment;
+import com.metaphore.qbankcalendar.EditMode;
+import com.metaphore.qbankcalendar.QBankCalendarDialogFragment;
 import com.metaphore.qbankcalendar.QBankCalendarView;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends FragmentActivity implements
-        QBankCalendarFragment.QBankCalendarFragmentListener{
+        QBankCalendarDialogFragment.QBankCalendarFragmentListener{
 
     private static final String TAG_CALENDAR_FRAGMENT = "tag_calendar_fragment";
 
@@ -23,6 +24,10 @@ public class MainActivity extends FragmentActivity implements
         setContentView(R.layout.activity_main);
 
         calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
+        Calendar begin = GregorianCalendar.getInstance();
+        Calendar end = GregorianCalendar.getInstance();
+        end.add(Calendar.MONTH, 1);
+        calendarView.setSelectedInterval(begin, end);
 
         findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +38,16 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void showCalendarDialog() {
-        QBankCalendarFragment calendarFragment = new QBankCalendarFragment();
+        Calendar beginDate = calendarView.getBeginDate();
+        Calendar endDate = calendarView.getEndDate();
+        EditMode editMode = calendarView.getEditMode();
+
+        QBankCalendarDialogFragment calendarFragment =
+                QBankCalendarDialogFragment.newInstance(beginDate, endDate, editMode);
+
+//        QBankCalendarDialogFragment calendarFragment =
+//                QBankCalendarDialogFragment.newInstance(EditMode.END_DATE);
+
         calendarFragment.show(getSupportFragmentManager(), TAG_CALENDAR_FRAGMENT);
     }
 

@@ -12,15 +12,16 @@ import com.metaphore.qbankcalendar.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
 
     private final Context context;
-    private final Calendar beginDate = Calendar.getInstance();
-    private final Calendar endDate = Calendar.getInstance();
+    private final Calendar beginDate = GregorianCalendar.getInstance();
+    private final Calendar endDate = GregorianCalendar.getInstance();
     // Used to determine visible month
-    private final Calendar currentMonth = Calendar.getInstance();
+    private final Calendar currentMonth = GregorianCalendar.getInstance();
     private final CalendarComparator comparator = new CalendarComparator();
 
     private ArrayList<Calendar> fullWeeks;

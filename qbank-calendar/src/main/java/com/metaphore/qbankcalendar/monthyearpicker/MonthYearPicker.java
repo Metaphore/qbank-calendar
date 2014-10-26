@@ -14,6 +14,7 @@ import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerItemListener {
 
@@ -35,8 +36,9 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
         monthPicker = ((ValuePicker) findViewById(R.id.month_picker));
         yearPicker = ((ValuePicker) findViewById(R.id.year_picker));
 
+        //TODO remove from ctor
         // Set today
-        setSelectedDate(Calendar.getInstance());
+        setSelectedDate(GregorianCalendar.getInstance());
 
         monthPicker.setPickerItemListener(this);
         yearPicker.setPickerItemListener(this);

@@ -9,6 +9,7 @@ import com.metaphore.qbankcalendar.modepicker.ModePicker;
 import com.metaphore.qbankcalendar.monthyearpicker.MonthYearPicker;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class QBankCalendarView extends FrameLayout implements
         ModePicker.ModePickerListener,
@@ -17,7 +18,7 @@ public class QBankCalendarView extends FrameLayout implements
 
     private static final String LOG_TAG = QBankCalendarView.class.getSimpleName();
 
-    private final Calendar tmpCal = Calendar.getInstance();
+    private final Calendar tmpCal = GregorianCalendar.getInstance();
 
     private final ModePicker modePicker;
     private final MonthYearPicker monthYearPicker;
@@ -43,14 +44,21 @@ public class QBankCalendarView extends FrameLayout implements
         dayPicker.setSelectedInterval(begin, end);
     }
 
+    public void setEditMode(EditMode editMode) {
+        modePicker.setSelectedMode(editMode);
+    }
+
     public Calendar getBeginDate() {
         return dayPicker.getBeginDate();
+    }
+
+    public EditMode getEditMode() {
+        return modePicker.getEditMode();
     }
 
     public Calendar getEndDate() {
         return dayPicker.getEndDate();
     }
-
 
     @Override
     public void onBeginPeriodModeSet() {
