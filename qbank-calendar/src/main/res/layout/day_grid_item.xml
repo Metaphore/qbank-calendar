@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.metaphore.qbankcalendar.dayview.DayCell
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/day_cell"
+        android:background="@drawable/day_cell_background"/>

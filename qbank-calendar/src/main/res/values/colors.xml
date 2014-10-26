@@ -10,9 +10,10 @@
 
     <color name="week_days_background">#f2f2f2</color>
 
-    <color name="date_picker_regular">#fff</color>
-    <color name="date_picker_grids">#f2f2f2</color>
-    <color name="date_picker_bg_inside_interval">#f1ffcc</color>
-    <color name="date_picker_bg_edge_active">#88b824</color>
-    <color name="date_picker_bg_edge_passive">#daefa0</color>
+    <color name="day_cells_grids">#f2f2f2</color>
+    <color name="day_cell_regular">#fff</color>
+    <color name="day_cell_within_interval">#f1ffcc</color>
+    <color name="day_cell_edge_active">#88b824</color>
+    <color name="day_cell_edge_passive">#daefa0</color>
+    <color name="day_cell_pressed">#daefa0</color>
 </resources>

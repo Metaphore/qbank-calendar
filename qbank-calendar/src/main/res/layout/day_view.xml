@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/day_grid"
-            android:background="@color/date_picker_grids"
+            android:background="@color/day_cells_grids"
             android:horizontalSpacing="1dp"
             android:verticalSpacing="1dp"
             android:numColumns="7">

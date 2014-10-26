@@ -1,12 +1,10 @@
 package com.metaphore.qbankcalendar.dayview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import com.metaphore.qbankcalendar.EditMode;
 import com.metaphore.qbankcalendar.R;
 import hirondelle.date4j.DateTime;
@@ -18,16 +16,11 @@ import java.util.Comparator;
 class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
 
-    private final int colorBgRegular;
-    private final int colorBgInsideInterval;
-    private final int colorBgIntervalEdgeActive;
-    private final int colorBgIntervalEdgePassive;
-
     private final Context context;
     private final Calendar beginDate = Calendar.getInstance();
     private final Calendar endDate = Calendar.getInstance();
     // Used to determine visible month
-    private final Calendar currentDate = Calendar.getInstance();
+    private final Calendar currentMonth = Calendar.getInstance();
     private final CalendarComparator comparator = new CalendarComparator();
 
     private ArrayList<Calendar> fullWeeks;
@@ -36,25 +29,16 @@ class DayViewAdapter extends BaseAdapter {
     DayViewAdapter(Context context) {
         this.context = context;
 
-        colorBgRegular = context.getResources().getColor(R.color.date_picker_regular);
-        colorBgInsideInterval = context.getResources().getColor(R.color.date_picker_bg_inside_interval);
-        colorBgIntervalEdgeActive = context.getResources().getColor(R.color.date_picker_bg_edge_active);
-        colorBgIntervalEdgePassive = context.getResources().getColor(R.color.date_picker_bg_edge_passive);
-
         endDate.add(Calendar.MONTH, 1);
         generateWeeksData();
     }
 
-    public CalendarComparator getComparator() {
-        return comparator;
+    public Calendar getCurrentMonth() {
+        return currentMonth;
     }
 
-    public Calendar getCurrentDate() {
-        return currentDate;
-    }
-
-    public void setCurrentDate(Calendar currentDate) {
-        this.currentDate.setTime(currentDate.getTime());
+    public void setCurrentMonth(Calendar currentMonth) {
+        this.currentMonth.setTime(currentMonth.getTime());
 
         generateWeeksData();
         notifyDataSetInvalidated();
@@ -99,8 +83,8 @@ class DayViewAdapter extends BaseAdapter {
             throw new IllegalStateException("Begin date cannot be equal or greater than end date.");
         }
         fullWeeks = getFullWeeks(
-                currentDate.get(Calendar.YEAR),
-                currentDate.get(Calendar.MONTH)+1);
+                currentMonth.get(Calendar.YEAR),
+                currentMonth.get(Calendar.MONTH) + 1);
     }
 
     @Override
@@ -130,6 +114,16 @@ class DayViewAdapter extends BaseAdapter {
                !isDateBesideOtherPeriodEdge(position);
     }
 
+    private boolean isInCurrentMonth(int position) {
+        Calendar date = fullWeeks.get(position);
+        return date.get(Calendar.MONTH) == currentMonth.get(Calendar.MONTH);
+    }
+
+    private boolean isIntervalEdge(int position) {
+        Calendar date = fullWeeks.get(position);
+        return comparator.compare(date, beginDate) == 0 || comparator.compare(date, endDate) == 0;
+    }
+
     private boolean isDateBesideOtherPeriodEdge(int position) {
         Calendar date = fullWeeks.get(position);
         switch (editMode) {
@@ -142,95 +136,29 @@ class DayViewAdapter extends BaseAdapter {
         }
     }
 
-    private boolean isInCurrentMonth(int position) {
-        Calendar date = fullWeeks.get(position);
-        return date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH);
-    }
-
-    private boolean isInsideInterval(int position) {
-        Calendar date = fullWeeks.get(position);
-        return comparator.compare(date, beginDate) >= 0 && comparator.compare(date, endDate) <= 0;
-    }
-
-    private boolean isIntervalEdge(int position) {
-        Calendar date = fullWeeks.get(position);
-        return comparator.compare(date, beginDate) == 0 || comparator.compare(date, endDate) == 0;
-    }
-
-    private boolean isActiveIntervalEdge(int position) {
-        Calendar date = fullWeeks.get(position);
-        switch (editMode) {
-            case BEGIN_DATE:
-                return comparator.compare(date, beginDate) == 0;
-            case END_DATE:
-                return comparator.compare(date, endDate) == 0;
-            default:
-                throw new IllegalStateException("Unexpected editMode state");
-        }
-    }
-
-    private boolean isDayWithContinue(int position) {
-        if (!isInsideInterval(position) || isIntervalEdge(position)) return false;
-
-        Calendar date = fullWeeks.get(position);
-
-        int firstDayOfMonth = currentDate.getActualMinimum(Calendar.DAY_OF_MONTH);
-        int lastDayOfMonth = currentDate.getActualMaximum(Calendar.DAY_OF_MONTH);
-        int dayOfMonth = date.get(Calendar.DAY_OF_MONTH);
-
-        return dayOfMonth == firstDayOfMonth || dayOfMonth == lastDayOfMonth;
-    }
-
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        ViewHolder viewHolder;
+        DayCell dayCell;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.day_item, parent, false);
+            view = inflater.inflate(R.layout.day_grid_item, parent, false);
 
-            viewHolder = new ViewHolder();
-
-            viewHolder.dayNumber = (TextView) view.findViewById(R.id.day_number);
-            viewHolder.continueMarker = view.findViewById(R.id.continue_marker);
-            viewHolder.container = view.findViewById(R.id.container);
-
-            view.setTag(viewHolder);
+            dayCell = (DayCell) view.findViewById(R.id.day_cell);
+            dayCell.setComparator(comparator);
+            view.setTag(dayCell);
         } else {
-            viewHolder = (ViewHolder) view.getTag();
+            dayCell = (DayCell) view.getTag();
         }
-
-        // Reset view state to default
-        viewHolder.container.setBackgroundColor(colorBgRegular);
-        viewHolder.dayNumber.setVisibility(View.VISIBLE);
-        viewHolder.continueMarker.setVisibility(View.INVISIBLE);
 
         Calendar date = (Calendar) getItem(position);
-
-        if (isInCurrentMonth(position)) {
-            viewHolder.dayNumber.setText(String.valueOf(date.get(Calendar.DAY_OF_MONTH)));
-
-            if (isInsideInterval(position)) {
-
-                if (isIntervalEdge(position)) {
-                    viewHolder.container.setBackgroundColor(
-                            isActiveIntervalEdge(position) ?
-                                    colorBgIntervalEdgeActive :
-                                    colorBgIntervalEdgePassive
-                    );
-                } else {
-                    viewHolder.container.setBackgroundColor(colorBgInsideInterval);
-                    if (isDayWithContinue(position)) {
-                        viewHolder.continueMarker.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        } else {
-            viewHolder.dayNumber.setVisibility(View.INVISIBLE);
-        }
+        dayCell.updateViewState(date, currentMonth, beginDate, endDate, editMode);
 
         return view;
     }
 
+    /**
+     * Comparator that use only year, month and day fields to compare calendars
+     */
     public static class CalendarComparator implements Comparator<Calendar> {
         @Override
         public int compare(Calendar l, Calendar r) {
@@ -243,12 +171,6 @@ class DayViewAdapter extends BaseAdapter {
             int dayDif = l.get(Calendar.DAY_OF_YEAR) - r.get(Calendar.DAY_OF_YEAR);
             return dayDif;
         }
-    }
-
-    private class ViewHolder {
-        TextView dayNumber;
-        View continueMarker;
-        View container;
     }
 
     /**

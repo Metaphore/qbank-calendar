@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:state_pressed="true"
+          android:drawable="@color/day_cell_pressed"/>
+
+    <item app:state_within_interval="false"
+          android:drawable="@color/day_cell_regular"/>
+
+    <item app:state_within_month="true"
+          app:state_active_edge="true"
+          android:drawable="@color/day_cell_edge_active"/>
+
+    <item app:state_within_month="true"
+          app:state_passive_edge="true"
+          android:drawable="@color/day_cell_edge_passive"/>
+
+    <item app:state_within_month="true"
+          android:drawable="@color/day_cell_within_interval"/>
+
+</selector>

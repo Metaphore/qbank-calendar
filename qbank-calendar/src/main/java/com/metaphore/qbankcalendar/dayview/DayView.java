@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -17,7 +19,6 @@ import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 
-//TODO реализовать разделение на два режима: редактирование начала периода и конца
 public class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
     private static final String LOG_TAG = DayView.class.getSimpleName();
 
@@ -47,12 +48,12 @@ public class DayView extends FrameLayout implements AdapterView.OnItemClickListe
     }
 
     public void setCurrentDate(Calendar date) {
-        dayViewAdapter.setCurrentDate(date);
+        dayViewAdapter.setCurrentMonth(date);
         dayGrid.invalidateViews();
     }
 
     public Calendar getCurrentDate() {
-        return dayViewAdapter.getCurrentDate();
+        return dayViewAdapter.getCurrentMonth();
     }
 
     public Calendar getEndDate() {
@@ -102,5 +103,12 @@ public class DayView extends FrameLayout implements AdapterView.OnItemClickListe
         void onDateSelected(Calendar date);
         void onShowNextMonth();
         void onShowPreviousMonth();
+    }
+
+    private static class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
     }
 }
