@@ -26,7 +26,7 @@ class ValuePicker extends FrameLayout implements CompoundButton.OnCheckedChangeL
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.picker_item, this, true);
+        inflater.inflate(R.layout.value_picker, this, true);
 
         arrowLeft = findViewById(R.id.arrow_left);
         arrowRight = findViewById(R.id.arrow_right);

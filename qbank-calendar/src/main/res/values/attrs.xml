@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="ModeItem">
         <attr name="mode_name" format="string" />
         <attr name="text_color" format="color" />
@@ -12,4 +13,9 @@
         <attr name="state_active_edge" format="boolean" />
         <attr name="state_passive_edge" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="TintableImageView">
+        <attr name="tint" format="reference|color" />
+    </declare-styleable>
+
 </resources>

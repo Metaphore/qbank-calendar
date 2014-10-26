@@ -7,6 +7,8 @@
 
     <color name="month_year_item_bck">#f2f2f2</color>
     <color name="month_year_item_bck_checked">#88b824</color>
+    <color name="month_year_arrow_regular">#909090</color>
+    <color name="month_year_arrow_pressed">#daefa0</color>
 
     <color name="week_days_background">#f2f2f2</color>
 
@@ -16,6 +18,7 @@
     <color name="day_cell_edge_active">#88b824</color>
     <color name="day_cell_edge_passive">#daefa0</color>
     <color name="day_cell_pressed">#daefa0</color>
+    <color name="day_cell_continue_marker">#88b824</color>
 
     <color name="rounded_rect_dgreen">#88b824</color>
     <color name="rounded_rect_lgreen">#daefa0</color>

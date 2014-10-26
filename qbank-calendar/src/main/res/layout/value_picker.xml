@@ -2,17 +2,19 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
             android:layout_width="@dimen/row_width"
             android:layout_height="@dimen/row_width"
             android:layout_gravity="center_vertical"
             android:id="@+id/arrow_left"
             android:src="@drawable/arrow_left"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            custom:tint="@color/value_picker_arrow_tint"/>
     
     <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
             android:layout_width="0dp"
@@ -24,13 +26,13 @@
             android:gravity="center"
             android:text="Month/Year"
             android:textColor="@color/button_month_year_text"/>
-
-    <ImageView
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
             android:layout_width="@dimen/row_width"
             android:layout_height="@dimen/row_width"
             android:layout_gravity="center_vertical"
             android:id="@+id/arrow_right"
             android:src="@drawable/arrow_right"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            custom:tint="@color/value_picker_arrow_tint"/>
 
 </LinearLayout>
