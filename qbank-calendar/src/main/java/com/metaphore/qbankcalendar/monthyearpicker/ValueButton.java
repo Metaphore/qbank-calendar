@@ -8,6 +8,7 @@ class ValueButton extends CompoundButton {
 
     public ValueButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setClickable(true);
     }
 
     @Override

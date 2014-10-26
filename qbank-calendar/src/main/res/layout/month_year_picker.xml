@@ -2,22 +2,68 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
 
-    <com.metaphore.qbankcalendar.monthyearpicker.ValuePicker
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/month_arrow_left"
+            android:src="@drawable/arrow_left"
+            custom:tint="@color/value_picker_arrow_tint"
+            android:visibility="visible"/>
+
+    <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_weight="0.65"
-            android:id="@+id/month_picker"
+            android:layout_gravity="center"
+            android:id="@+id/month_button"
+            android:background="@drawable/button_month_year_bg"
+            android:gravity="center"
+            android:textColor="@color/button_month_year_text"
             android:checked="true"/>
 
-    <com.metaphore.qbankcalendar.monthyearpicker.ValuePicker
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/month_arrow_right"
+            android:src="@drawable/arrow_right"
+            custom:tint="@color/value_picker_arrow_tint"
+            android:visibility="visible"/>
+
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/year_arrow_left"
+            android:src="@drawable/arrow_left"
+            custom:tint="@color/value_picker_arrow_tint"
+            android:visibility="gone"/>
+
+    <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_weight="0.35"
-            android:id="@+id/year_picker"/>
+            android:layout_gravity="center"
+            android:id="@+id/year_button"
+            android:background="@drawable/button_month_year_bg"
+            android:gravity="center"
+            android:textColor="@color/button_month_year_text"
+            android:checked="false"/>
+
+    <com.metaphore.qbankcalendar.dayview.TintableImageView
+            android:layout_width="@dimen/month_year_picker_arrow_size"
+            android:layout_height="@dimen/month_year_picker_arrow_size"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/year_arrow_right"
+            android:src="@drawable/arrow_right"
+            custom:tint="@color/value_picker_arrow_tint"
+            android:visibility="gone"/>
 
 </LinearLayout>

@@ -6,8 +6,10 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import com.metaphore.qbankcalendar.CalendarUtils;
 import com.metaphore.qbankcalendar.R;
@@ -16,16 +18,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerItemListener {
+public class MonthYearPicker extends FrameLayout {
 
     private static final String LOG_TAG = MonthYearPicker.class.getSimpleName();
 
-    private final ValuePicker monthPicker;
-    private final ValuePicker yearPicker;
+    private final ValueButton monthButton;
+    private final ValueButton yearButton;
+    private final View arrowMonthLeft;
+    private final View arrowMonthRight;
+    private final View arrowYearLeft;
+    private final View arrowYearRight;
 
     private MonthYearPickerListener monthYearPickerListener;
-
-    private boolean broadcasting;
 
     public MonthYearPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,15 +37,108 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.month_year_picker, this, true);
 
-        monthPicker = ((ValuePicker) findViewById(R.id.month_picker));
-        yearPicker = ((ValuePicker) findViewById(R.id.year_picker));
+        monthButton = (ValueButton) findViewById(R.id.month_button);
+        yearButton = (ValueButton) findViewById(R.id.year_button);
+        arrowMonthLeft = findViewById(R.id.month_arrow_left);
+        arrowMonthRight = findViewById(R.id.month_arrow_right);
+        arrowYearLeft = findViewById(R.id.year_arrow_left);
+        arrowYearRight = findViewById(R.id.year_arrow_right);
 
-        //TODO remove from ctor
-        // Set today
+        monthButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    onMonthChecked();
+                }
+            }
+        });
+        yearButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    onYearChecked();
+                }
+            }
+        });
+        arrowMonthLeft.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prevMonthPressed();
+            }
+        });
+        arrowMonthRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextMonthPressed();
+            }
+        });
+        arrowYearLeft.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prevYearPressed();
+            }
+        });
+        arrowYearRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextYearPressed();
+            }
+        });
+
+        // Set today by default
         setSelectedDate(GregorianCalendar.getInstance());
+    }
 
-        monthPicker.setPickerItemListener(this);
-        yearPicker.setPickerItemListener(this);
+    public void setMonthYearPickerListener(MonthYearPickerListener listener) {
+        this.monthYearPickerListener = listener;
+    }
+
+    public void setSelectedDate(Calendar date) {
+        Date time = date.getTime();
+        String month = CalendarUtils.MONTH_FORMAT.format(time);
+        String year =  CalendarUtils.YEAR_FORMAT.format(time);
+        monthButton.setText(month);
+        yearButton.setText(year);
+    }
+
+    private void onMonthChecked() {
+        yearButton.setChecked(false);
+        arrowMonthLeft.setVisibility(VISIBLE);
+        arrowMonthRight.setVisibility(VISIBLE);
+        arrowYearLeft.setVisibility(GONE);
+        arrowYearRight.setVisibility(GONE);
+    }
+
+    private void onYearChecked() {
+        monthButton.setChecked(false);
+        arrowMonthLeft.setVisibility(GONE);
+        arrowMonthRight.setVisibility(GONE);
+        arrowYearLeft.setVisibility(VISIBLE);
+        arrowYearRight.setVisibility(VISIBLE);
+    }
+
+    private void prevMonthPressed() {
+        if (monthYearPickerListener != null) {
+            monthYearPickerListener.onPreviousMonthClicked();
+        }
+    }
+
+    private void nextMonthPressed() {
+        if (monthYearPickerListener != null) {
+            monthYearPickerListener.onNextMonthClicked();
+        }
+    }
+
+    private void prevYearPressed() {
+        if (monthYearPickerListener != null) {
+            monthYearPickerListener.onPreviousYearClicked();
+        }
+    }
+
+    private void nextYearPressed() {
+        if (monthYearPickerListener != null) {
+            monthYearPickerListener.onNextYearClicked();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -56,61 +153,6 @@ public class MonthYearPicker extends FrameLayout implements ValuePicker.PickerIt
     public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(MonthYearPicker.class.getName());
-    }
-
-    public void setMonthYearPickerListener(MonthYearPickerListener listener) {
-        this.monthYearPickerListener = listener;
-    }
-
-    public void setSelectedDate(Calendar date) {
-        Date time = date.getTime();
-        String month = CalendarUtils.MONTH_FORMAT.format(time);
-        String year =  CalendarUtils.YEAR_FORMAT.format(time);
-        monthPicker.setText(month);
-        yearPicker.setText(year);
-    }
-
-    @Override
-    public void onNextPressed(ValuePicker valuePicker) {
-        if (valuePicker == monthPicker) {
-            if (monthYearPickerListener != null) {
-                monthYearPickerListener.onNextMonthClicked();
-            }
-        }
-        if (valuePicker == yearPicker) {
-            if (monthYearPickerListener != null) {
-                monthYearPickerListener.onNextYearClicked();
-            }
-        }
-    }
-
-    @Override
-    public void onPreviousPressed(ValuePicker valuePicker) {
-        if (valuePicker == monthPicker) {
-            if (monthYearPickerListener != null) {
-                monthYearPickerListener.onPreviousMonthClicked();
-            }
-        }
-        if (valuePicker == yearPicker) {
-            if (monthYearPickerListener != null) {
-                monthYearPickerListener.onPreviousYearClicked();
-            }
-        }
-    }
-
-    @Override
-    public void onSelected(ValuePicker valuePicker) {
-        if (broadcasting) return;
-        broadcasting = true;
-
-        if (valuePicker == monthPicker) {
-            yearPicker.setSelectedState(false);
-        }
-        if (valuePicker == yearPicker) {
-            monthPicker.setSelectedState(false);
-        }
-
-        broadcasting = false;
     }
 
     public interface MonthYearPickerListener {
