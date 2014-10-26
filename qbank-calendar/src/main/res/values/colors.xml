@@ -28,5 +28,6 @@
     <color name="text_light">#fff</color>
     <color name="text_dark">#6f6f6f</color>
     <color name="text_gray">#909090</color>
-    <color name="text_green">#88b824</color>
+    <color name="text_lgreen">#88b824</color>
+    <color name="text_dgreen">#697e2f</color>
 </resources>

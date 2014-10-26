@@ -7,7 +7,9 @@
     <item custom:state_active_edge="true"
           android:color="@color/text_light"/>
 
-    <item custom:state_active_edge="false"
-          android:color="@color/text_dark"/>
+    <item custom:state_within_interval="true"
+          android:color="@color/text_dgreen"/>
+
+    <item android:color="@color/text_dark"/>
 
 </selector>
