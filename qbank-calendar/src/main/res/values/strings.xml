@@ -7,5 +7,12 @@
     <string name="period_begin">Начало периода</string>
     <string name="period_end">Конец периода</string>
     <string name="ok">Ок</string>
+    <string name="week_day_monday">Пн</string>
+    <string name="week_day_tuesday">Вт</string>
+    <string name="week_day_wednesday">Ср</string>
+    <string name="week_day_thursday">Чт</string>
+    <string name="week_day_friday">Пт</string>
+    <string name="week_day_saturday">Сб</string>
+    <string name="week_day_sunday">Вс</string>
 
 </resources>

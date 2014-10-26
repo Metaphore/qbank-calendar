@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<GridView
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/day_grid"
-        android:background="@color/date_picker_grids"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp"
-        android:numColumns="7">
-</GridView>
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/week_days_background">
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_monday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_tuesday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_wednesday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_thursday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_friday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_saturday"/>
+        <TextView
+                style="@style/WeekDayHeader"
+                android:text="@string/week_day_sunday"/>
+    </LinearLayout>
+
+    <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/day_grid"
+            android:background="@color/date_picker_grids"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="1dp"
+            android:numColumns="7">
+    </GridView>
+
+</LinearLayout>

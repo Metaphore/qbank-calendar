@@ -8,6 +8,8 @@
     <color name="month_year_item_bck">#f2f2f2</color>
     <color name="month_year_item_bck_checked">#88b824</color>
 
+    <color name="week_days_background">#f2f2f2</color>
+
     <color name="date_picker_regular">#fff</color>
     <color name="date_picker_grids">#f2f2f2</color>
     <color name="date_picker_bg_inside_interval">#f1ffcc</color>
