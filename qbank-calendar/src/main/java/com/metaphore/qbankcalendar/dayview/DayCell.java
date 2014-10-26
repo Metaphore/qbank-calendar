@@ -1,6 +1,7 @@
 package com.metaphore.qbankcalendar.dayview;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ class DayCell extends FrameLayout {
 
     private final TextView dayNumber;
     private final View continueMarker;
+    private final ColorStateList textColor;
 
     // You can find field descriptions to DayCell#updateViewState
     private boolean withinMonth;
@@ -41,6 +43,8 @@ class DayCell extends FrameLayout {
 
         dayNumber = ((TextView) findViewById(R.id.day_number));
         continueMarker = findViewById(R.id.continue_marker);
+
+        textColor = getResources().getColorStateList(R.color.day_cell_text);
     }
 
     public void setComparator(Comparator<Calendar> comparator) {
@@ -124,5 +128,15 @@ class DayCell extends FrameLayout {
             mergeDrawableStates(drawableState, PASSIVE_EDGE);
         }
         return drawableState;
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+
+        if (textColor != null) {
+            int colorForState = textColor.getColorForState(getDrawableState(), 0);
+            dayNumber.setTextColor(colorForState);
+        }
     }
 }
