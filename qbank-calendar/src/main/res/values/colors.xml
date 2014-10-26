@@ -16,4 +16,13 @@
     <color name="day_cell_edge_active">#88b824</color>
     <color name="day_cell_edge_passive">#daefa0</color>
     <color name="day_cell_pressed">#daefa0</color>
+
+    <color name="rounded_rect_dgreen">#88b824</color>
+    <color name="rounded_rect_lgreen">#daefa0</color>
+    <color name="rounded_rect_lgray">#f2f2f2</color>
+
+    <color name="text_light">#fff</color>
+    <color name="text_dark">#6f6f6f</color>
+    <color name="text_gray">#909090</color>
+    <color name="text_green">#88b824</color>
 </resources>

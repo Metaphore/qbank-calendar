@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ModeItem">
-        <attr name="modeName" format="string" />
+        <attr name="mode_name" format="string" />
+        <attr name="text_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="DayCell">

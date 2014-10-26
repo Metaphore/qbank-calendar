@@ -1,6 +1,7 @@
 package com.metaphore.qbankcalendar.modepicker;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,19 +17,21 @@ import java.util.Date;
 
 class ModeItem extends FrameLayout implements Checkable {
 
-    private TextView selectedDate;
-
-    private OnCheckedChangeListener onCheckedChangeListener;
+    private final TextView selectedDate;
+    private final TextView modeName;
+    private final ColorStateList textColor;
 
     private boolean checked;
     private boolean broadcasting;
+
+    private OnCheckedChangeListener onCheckedChangeListener;
 
     public ModeItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.mode_pick_item, this, true);
 
-        TextView modeName = (TextView) findViewById(R.id.mode_name);
+        modeName = (TextView) findViewById(R.id.mode_name);
         selectedDate = (TextView) findViewById(R.id.selected_date);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -37,13 +40,10 @@ class ModeItem extends FrameLayout implements Checkable {
                 0, 0);
 
         checked = attrs.getAttributeBooleanValue("http://schemas.android.com/apk/res/android", "checked", false);
+        String modeNameText = a.getString(R.styleable.ModeItem_mode_name);
+        textColor = a.getColorStateList(R.styleable.ModeItem_text_color);
+        a.recycle();
 
-        String modeNameText;
-        try {
-            modeNameText = a.getString(R.styleable.ModeItem_modeName);
-        } finally {
-            a.recycle();
-        }
         modeName.setText(modeNameText);
 
         setBackgroundResource(R.drawable.mode_pick_item_background);
@@ -68,7 +68,18 @@ class ModeItem extends FrameLayout implements Checkable {
         onCheckedChangeListener = listener;
     }
 
-    //region Checkable implementation
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+
+        // Updating text color depends on text_color attribute
+        if (textColor != null) {
+            int colorForState = textColor.getColorForState(getDrawableState(), 0);
+            modeName.setTextColor(colorForState);
+            selectedDate.setTextColor(colorForState);
+        }
+    }
+//region Checkable implementation
 
     // Fix for not responding on checked state
     // http://stackoverflow.com/questions/11293399/custom-checkable-view-which-responds-to-selector

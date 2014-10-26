@@ -8,4 +8,5 @@
     <dimen name="row_width">64dp</dimen>
 
     <dimen name="week_day_vertical_margin">4dp</dimen>
+    <dimen name="button_roundness">3dp</dimen>
 </resources>

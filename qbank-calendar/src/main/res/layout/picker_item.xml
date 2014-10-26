@@ -20,9 +20,10 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:id="@+id/value_button"
-            android:background="@drawable/month_year_item_background"
+            android:background="@drawable/button_month_year_bg"
             android:gravity="center"
-            android:text="Month/Year"/>
+            android:text="Month/Year"
+            android:textColor="@color/button_month_year_text"/>
 
     <ImageView
             android:layout_width="@dimen/row_width"
