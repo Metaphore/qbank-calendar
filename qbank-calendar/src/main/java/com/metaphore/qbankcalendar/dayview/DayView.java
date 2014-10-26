@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ public class DayView extends FrameLayout implements AdapterView.OnItemClickListe
         dayGrid.setAdapter(dayViewAdapter);
 
         dayGrid.setOnItemClickListener(this);
+
+        setClickable(true);
     }
 
     public void setSelectedInterval(Calendar begin, Calendar end) {
@@ -103,12 +106,5 @@ public class DayView extends FrameLayout implements AdapterView.OnItemClickListe
         void onDateSelected(Calendar date);
         void onShowNextMonth();
         void onShowPreviousMonth();
-    }
-
-    private static class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
     }
 }
