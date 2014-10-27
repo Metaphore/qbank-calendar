@@ -9,15 +9,16 @@ import android.widget.Checkable;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 class ModeItem extends FrameLayout implements Checkable {
 
     private final TextView selectedDate;
     private final TextView modeName;
     private final ColorStateList textColor;
+
+    private final Calendar selectedDateValue = GregorianCalendar.getInstance();
 
     private boolean checked;
     private boolean broadcasting;
@@ -47,16 +48,13 @@ class ModeItem extends FrameLayout implements Checkable {
         setClickable(true);
     }
 
-    public Date getSelectedDate() {
-        try {
-            return InternalUtils.DATE_FORMAT.parse(selectedDate.getText().toString());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public Calendar getSelectedDate() {
+        return selectedDateValue;
     }
 
     public void setSelectedDate(Calendar date) {
         selectedDate.setText(InternalUtils.DATE_FORMAT.format(date.getTime()));
+        selectedDateValue.setTime(date.getTime());
         invalidate();
         requestLayout();
     }

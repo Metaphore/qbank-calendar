@@ -24,10 +24,13 @@ public class MainActivity extends FragmentActivity implements
         setContentView(R.layout.activity_main);
 
         calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
-        Calendar begin = GregorianCalendar.getInstance();
-        begin.add(Calendar.MONTH, -1);
-        Calendar end = GregorianCalendar.getInstance();
-        calendarView.setSelectedInterval(begin, end);
+
+        if (savedInstanceState == null) {
+            Calendar begin = GregorianCalendar.getInstance();
+            begin.add(Calendar.MONTH, -1);
+            Calendar end = GregorianCalendar.getInstance();
+            calendarView.setSelectedInterval(begin, end);
+        }
 
         findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {
             @Override

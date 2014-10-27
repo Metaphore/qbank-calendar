@@ -15,7 +15,7 @@ class MonthYearButton extends CompoundButton {
     public void toggle() {
         boolean checked = isChecked();
 
-        // Restricts unchecking by touch
+        // Restricts unchecking through touch
         if (!checked) {
             setChecked(true);
         }

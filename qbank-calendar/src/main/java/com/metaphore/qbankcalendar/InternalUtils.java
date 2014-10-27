@@ -92,6 +92,12 @@ class InternalUtils {
         return result;
     }
 
+    public static Calendar fromMs(long milliseconds) {
+        Calendar result = GregorianCalendar.getInstance();
+        result.setTimeInMillis(milliseconds);
+        return result;
+    }
+
     private static Calendar createFirstDayOfMonth(int year, int month) {
         Calendar result = GregorianCalendar.getInstance();
         result.set(YEAR, year);

@@ -3,6 +3,8 @@ package com.metaphore.qbankcalendar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ import java.util.GregorianCalendar;
 
 class MonthYearPicker extends FrameLayout {
     private static final String LOG_TAG = MonthYearPicker.class.getSimpleName();
+    private static final String KEY_INSTANCE_STATE = "instance_state";
+    private static final String KEY_SELECTED_DATE = "selected_date";
 
     private final MonthYearButton monthButton;
     private final MonthYearButton yearButton;
@@ -24,6 +28,8 @@ class MonthYearPicker extends FrameLayout {
     private final View arrowMonthRight;
     private final View arrowYearLeft;
     private final View arrowYearRight;
+
+    private final Calendar selectedDate = GregorianCalendar.getInstance();
 
     private MonthYearPickerListener monthYearPickerListener;
 
@@ -97,6 +103,8 @@ class MonthYearPicker extends FrameLayout {
         yearButton.setText(year);
 
         updateArrowsEnabledState(date);
+
+        selectedDate.setTime(date.getTime());
     }
 
     private void updateArrowsEnabledState(Calendar date) {
@@ -145,6 +153,27 @@ class MonthYearPicker extends FrameLayout {
         if (monthYearPickerListener != null) {
             monthYearPickerListener.onNextYearClicked();
         }
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_INSTANCE_STATE, super.onSaveInstanceState());
+        bundle.putLong(KEY_SELECTED_DATE, selectedDate.getTimeInMillis());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            Calendar selectedDate = InternalUtils.fromMs(bundle.getLong(KEY_SELECTED_DATE));
+
+            setSelectedDate(selectedDate);
+
+            state = bundle.getParcelable(KEY_INSTANCE_STATE);
+        }
+        super.onRestoreInstanceState(state);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

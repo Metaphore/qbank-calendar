@@ -3,6 +3,8 @@ package com.metaphore.qbankcalendar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,8 +15,11 @@ import android.widget.FrameLayout;
 import java.util.Calendar;
 
 class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener {
-
     private static final String LOG_TAG = ModePicker.class.getSimpleName();
+    private static final String KEY_INSTANCE_STATE = "instance_state";
+    private static final String KEY_BEGIN_DATE = "begin_date";
+    private static final String KEY_END_DATE = "end_date";
+    private static final String KEY_EDIT_MODE = "edit_mode";
 
     private ModePickerListener modePickerListener;
 
@@ -79,6 +84,45 @@ class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener
         return editMode;
     }
 
+    public void setSelectedMode(EditMode editMode) {
+        switch (editMode) {
+            case BEGIN_DATE:
+                modeBeginItem.toggle();
+                break;
+            case END_DATE:
+                modeEndItem.toggle();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected editMode: " + editMode);
+        }
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_INSTANCE_STATE, super.onSaveInstanceState());
+        bundle.putLong(KEY_BEGIN_DATE, modeBeginItem.getSelectedDate().getTimeInMillis());
+        bundle.putLong(KEY_END_DATE, modeEndItem.getSelectedDate().getTimeInMillis());
+        bundle.putInt(KEY_EDIT_MODE, editMode.ordinal());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            Calendar beginDate = InternalUtils.fromMs(bundle.getLong(KEY_BEGIN_DATE));
+            Calendar endDate = InternalUtils.fromMs(bundle.getLong(KEY_END_DATE));
+            EditMode editMode = EditMode.values()[bundle.getInt(KEY_EDIT_MODE)];
+
+            setSelectedInterval(beginDate, endDate);
+            setSelectedMode(editMode);
+
+            state = bundle.getParcelable(KEY_INSTANCE_STATE);
+        }
+        super.onRestoreInstanceState(state);
+    }
+
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onInitializeAccessibilityEvent(@NonNull AccessibilityEvent event) {
@@ -91,19 +135,6 @@ class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener
     public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(ModePicker.class.getName());
-    }
-
-    public void setSelectedMode(EditMode editMode) {
-        switch (editMode) {
-            case BEGIN_DATE:
-                modeBeginItem.toggle();
-                break;
-            case END_DATE:
-                modeEndItem.toggle();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected editMode: " + editMode);
-        }
     }
 
     public interface ModePickerListener {
