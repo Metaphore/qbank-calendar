@@ -46,6 +46,17 @@ public class QBankCalendarView extends FrameLayout implements
 
     public void setEditMode(EditMode editMode) {
         modePicker.setSelectedMode(editMode);
+
+        switch (editMode) {
+            case BEGIN_DATE:
+                monthYearPicker.setSelectedDate(dayPicker.getBeginDate());
+                dayPicker.setCurrentDate(dayPicker.getBeginDate());
+                break;
+            case END_DATE:
+                monthYearPicker.setSelectedDate(dayPicker.getEndDate());
+                dayPicker.setCurrentDate(dayPicker.getEndDate());
+                break;
+        }
     }
 
     public Calendar getBeginDate() {

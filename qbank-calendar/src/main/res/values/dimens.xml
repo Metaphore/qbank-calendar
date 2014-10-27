@@ -4,7 +4,7 @@
 
     <dimen name="month_year_picker_arrow_size">48dp</dimen>
 
-    <dimen name="week_day_vertical_margin">4dp</dimen>
+    <dimen name="week_day_vertical_margin">2dp</dimen>
 
     <dimen name="mode_pick_item_shadow">1dp</dimen>
     <dimen name="mode_pick_item_shadow_mirror">-1dp</dimen>
