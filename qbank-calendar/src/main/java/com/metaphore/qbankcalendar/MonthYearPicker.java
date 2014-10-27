@@ -18,8 +18,6 @@ import java.util.GregorianCalendar;
 class MonthYearPicker extends FrameLayout {
     private static final String LOG_TAG = MonthYearPicker.class.getSimpleName();
 
-    private final Calendar actualDate;
-
     private final MonthYearButton monthButton;
     private final MonthYearButton yearButton;
     private final View arrowMonthLeft;
@@ -31,8 +29,6 @@ class MonthYearPicker extends FrameLayout {
 
     public MonthYearPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        actualDate = GregorianCalendar.getInstance();
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.month_year_picker, this, true);
@@ -104,8 +100,8 @@ class MonthYearPicker extends FrameLayout {
     }
 
     private void updateArrowsEnabledState(Calendar date) {
-        boolean edgeDate = date.get(Calendar.YEAR) >= actualDate.get(Calendar.YEAR) &&
-                        date.get(Calendar.MONTH) >= actualDate.get(Calendar.MONTH);
+        boolean edgeDate = date.get(Calendar.YEAR) >= InternalUtils.CURRENT_DATE.get(Calendar.YEAR) &&
+                        date.get(Calendar.MONTH) >= InternalUtils.CURRENT_DATE.get(Calendar.MONTH);
 
         arrowMonthRight.setEnabled(!edgeDate);
         arrowYearRight.setEnabled(!edgeDate);

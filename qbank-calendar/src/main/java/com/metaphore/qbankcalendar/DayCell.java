@@ -19,6 +19,7 @@ class DayCell extends FrameLayout {
     private static final int[] CONTINUE_EDGE = {R.attr.state_continue_edge};
     private static final int[] ACTIVE_EDGE = {R.attr.state_active_edge};
     private static final int[] PASSIVE_EDGE = {R.attr.state_passive_edge};
+    private static final int[] BEYOND_TODAY = {R.attr.state_beyond_today};
 
     private final TextView dayNumber;
     private final View continueMarker;
@@ -30,6 +31,7 @@ class DayCell extends FrameLayout {
     private boolean continueEdge;
     private boolean activeEdge;
     private boolean passiveEdge;
+    private boolean beyondToday;
 
     private Comparator<Calendar> comparator;
 
@@ -49,7 +51,7 @@ class DayCell extends FrameLayout {
         this.comparator = comparator;
     }
 
-    public void updateViewState(Calendar currDay, Calendar currentMonth, Calendar periodBegin,
+    public void updateViewState(Calendar date, Calendar currentMonth, Calendar periodBegin,
                                 Calendar periodEnd, EditMode editMode) {
 
         if (comparator == null) {
@@ -64,23 +66,27 @@ class DayCell extends FrameLayout {
             continueEdge = false;
             activeEdge = false;
             passiveEdge = false;
+            beyondToday = false;
 
             // withinMonth determines whenever day inside of current month
-            withinMonth = currDay.get(Calendar.MONTH) == currentMonth.get(Calendar.MONTH);
+            withinMonth = date.get(Calendar.MONTH) == currentMonth.get(Calendar.MONTH);
 
             // withinMonth determines whenever day inside of selected period
-            withinInterval = comparator.compare(currDay, periodBegin) >= 0 &&
-                    comparator.compare(currDay, periodEnd) <= 0;
+            withinInterval = comparator.compare(date, periodBegin) >= 0 &&
+                    comparator.compare(date, periodEnd) <= 0;
+
+            // beyondToday determines whenever day is after actual current date
+            beyondToday = comparator.compare(date, InternalUtils.CURRENT_DATE) > 0;
 
             // activeEdge and passiveEdge are edges of selected period and depend on current editMode
             switch (editMode) {
                 case BEGIN_DATE:
-                    activeEdge = comparator.compare(currDay, periodBegin) == 0;
-                    passiveEdge = comparator.compare(currDay, periodEnd) == 0;
+                    activeEdge = comparator.compare(date, periodBegin) == 0;
+                    passiveEdge = comparator.compare(date, periodEnd) == 0;
                     break;
                 case END_DATE:
-                    activeEdge = comparator.compare(currDay, periodEnd) == 0;
-                    passiveEdge = comparator.compare(currDay, periodBegin) == 0;
+                    activeEdge = comparator.compare(date, periodEnd) == 0;
+                    passiveEdge = comparator.compare(date, periodBegin) == 0;
                     break;
                 default:
                     throw new IllegalStateException("Unexpected editMode: " + editMode);
@@ -90,7 +96,7 @@ class DayCell extends FrameLayout {
             if (withinMonth && withinInterval && !activeEdge && !passiveEdge) {
                 int firstDayOfMonth = currentMonth.getActualMinimum(Calendar.DAY_OF_MONTH);
                 int lastDayOfMonth = currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
-                int dayOfMonth = currDay.get(Calendar.DAY_OF_MONTH);
+                int dayOfMonth = date.get(Calendar.DAY_OF_MONTH);
 
                 continueEdge = dayOfMonth == firstDayOfMonth || dayOfMonth == lastDayOfMonth;
             }
@@ -99,7 +105,7 @@ class DayCell extends FrameLayout {
         // Updating view
         {
             dayNumber.setVisibility(withinMonth ? VISIBLE : GONE);
-            dayNumber.setText(String.valueOf(currDay.get(Calendar.DAY_OF_MONTH)));
+            dayNumber.setText(String.valueOf(date.get(Calendar.DAY_OF_MONTH)));
 
             continueMarker.setVisibility(continueEdge ? VISIBLE : GONE);
 
@@ -119,7 +125,7 @@ class DayCell extends FrameLayout {
 
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 5);
+        final int[] drawableState = super.onCreateDrawableState(extraSpace + 6);
         if (withinMonth) {
             mergeDrawableStates(drawableState, WITHIN_MONTH);
         }
@@ -134,6 +140,9 @@ class DayCell extends FrameLayout {
         }
         if (passiveEdge) {
             mergeDrawableStates(drawableState, PASSIVE_EDGE);
+        }
+        if (beyondToday) {
+            mergeDrawableStates(drawableState, BEYOND_TODAY);
         }
         return drawableState;
     }

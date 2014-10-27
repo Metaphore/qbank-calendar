@@ -12,6 +12,7 @@
         <attr name="state_continue_edge" format="boolean" />
         <attr name="state_active_edge" format="boolean" />
         <attr name="state_passive_edge" format="boolean" />
+        <attr name="state_beyond_today" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="TintableImageView">

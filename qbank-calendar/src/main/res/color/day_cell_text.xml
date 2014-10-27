@@ -10,6 +10,9 @@
     <item custom:state_within_interval="true"
           android:color="@color/text_dgreen"/>
 
+    <item custom:state_beyond_today="true"
+          android:color="@color/text_lgray"/>
+
     <item android:color="@color/text_dark"/>
 
 </selector>

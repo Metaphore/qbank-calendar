@@ -116,6 +116,7 @@ class DayViewAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
         return isInCurrentMonth(position) &&
+               !isBeyondToday(position) &&
                !isIntervalEdge(position) &&
                !isDateBesideOtherPeriodEdge(position);
     }
@@ -123,6 +124,11 @@ class DayViewAdapter extends BaseAdapter {
     private boolean isInCurrentMonth(int position) {
         Calendar date = fullWeeks.get(position);
         return date.get(Calendar.MONTH) == currentMonth.get(Calendar.MONTH);
+    }
+
+    private boolean isBeyondToday(int position) {
+        Calendar date = fullWeeks.get(position);
+        return comparator.compare(date, InternalUtils.CURRENT_DATE) > 0;
     }
 
     private boolean isIntervalEdge(int position) {

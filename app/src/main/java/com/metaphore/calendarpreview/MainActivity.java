@@ -25,8 +25,8 @@ public class MainActivity extends FragmentActivity implements
 
         calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
         Calendar begin = GregorianCalendar.getInstance();
+        begin.add(Calendar.MONTH, -1);
         Calendar end = GregorianCalendar.getInstance();
-        end.add(Calendar.MONTH, 1);
         calendarView.setSelectedInterval(begin, end);
 
         findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {

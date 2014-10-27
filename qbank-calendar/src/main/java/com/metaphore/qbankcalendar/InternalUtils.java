@@ -12,6 +12,7 @@ class InternalUtils {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM");
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
+    public static final Calendar CURRENT_DATE = GregorianCalendar.getInstance();
 
     /**
      * Retrieve all the dates for a given calendar month Include previous month,
