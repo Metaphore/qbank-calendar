@@ -1,2 +1,2 @@
-include ':app', ':qbank-calendar'
+include ':sample', ':qbank-calendar'
 

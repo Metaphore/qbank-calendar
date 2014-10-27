@@ -1,4 +1,4 @@
-package com.metaphore.calendarpreview;
+package com.metaphore.qbankcalendarsample;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
