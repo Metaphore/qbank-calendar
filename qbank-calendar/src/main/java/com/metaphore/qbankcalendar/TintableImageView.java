@@ -1,13 +1,12 @@
-package com.metaphore.qbankcalendar.dayview;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import com.metaphore.qbankcalendar.R;
 
-class TintableImageView extends ImageView {
+public class TintableImageView extends ImageView {
 
     private ColorStateList tint;
 

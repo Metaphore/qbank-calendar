@@ -54,6 +54,8 @@ class DayViewAdapter extends BaseAdapter {
     }
 
     public void setEditMode(EditMode editMode) {
+        if (this.editMode == editMode) return;
+
         this.editMode = editMode;
 
         generateWeeksData();
@@ -61,6 +63,8 @@ class DayViewAdapter extends BaseAdapter {
     }
 
     public void setSelectionInterval(Calendar begin, Calendar end) {
+        if (comparator.compare(beginDate, begin) == 0 && comparator.compare(endDate, end) == 0) return;
+
         beginDate.setTime(begin.getTime());
         endDate.setTime(end.getTime());
 
@@ -71,10 +75,14 @@ class DayViewAdapter extends BaseAdapter {
     public void setSelectedDate(Calendar selectedDate) {
         switch (editMode) {
             case BEGIN_DATE:
-                setSelectionInterval(selectedDate, endDate);
+                if (comparator.compare(beginDate, selectedDate) != 0) {
+                    setSelectionInterval(selectedDate, endDate);
+                }
                 break;
             case END_DATE:
-                setSelectionInterval(beginDate, selectedDate);
+                if (comparator.compare(endDate, selectedDate) != 0) {
+                    setSelectionInterval(beginDate, selectedDate);
+                }
                 break;
         }
     }

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:id="@+id/container">
 
-    <com.metaphore.qbankcalendar.dayview.TintableImageView
+    <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/day_cell_continue_marker_size"
             android:layout_height="@dimen/day_cell_continue_marker_size"
             android:layout_alignParentTop="true"

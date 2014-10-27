@@ -2,6 +2,9 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+            android:state_enabled="false"
+            android:color="@color/month_year_arrow_disabled"/>
+    <item
             android:state_pressed="true"
             android:color="@color/month_year_arrow_pressed"/>
     <item

@@ -15,12 +15,12 @@ import com.metaphore.qbankcalendar.CalendarUtils;
 import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MonthYearPicker extends FrameLayout {
-
     private static final String LOG_TAG = MonthYearPicker.class.getSimpleName();
+
+    private final Calendar actualDate;
 
     private final ValueButton monthButton;
     private final ValueButton yearButton;
@@ -33,6 +33,8 @@ public class MonthYearPicker extends FrameLayout {
 
     public MonthYearPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        actualDate = GregorianCalendar.getInstance();
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.month_year_picker, this, true);
@@ -99,6 +101,16 @@ public class MonthYearPicker extends FrameLayout {
         String year =  CalendarUtils.YEAR_FORMAT.format(date.getTime());
         monthButton.setText(month);
         yearButton.setText(year);
+
+        updateArrowsEnabledState(date);
+    }
+
+    private void updateArrowsEnabledState(Calendar date) {
+        boolean edgeDate = date.get(Calendar.YEAR) >= actualDate.get(Calendar.YEAR) &&
+                        date.get(Calendar.MONTH) >= actualDate.get(Calendar.MONTH);
+
+        arrowMonthRight.setEnabled(!edgeDate);
+        arrowYearRight.setEnabled(!edgeDate);
     }
 
     private void onMonthChecked() {

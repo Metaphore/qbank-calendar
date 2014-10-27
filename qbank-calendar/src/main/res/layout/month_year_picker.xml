@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1">
 
-    <com.metaphore.qbankcalendar.dayview.TintableImageView
+    <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/month_year_picker_arrow_size"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
@@ -28,7 +28,7 @@
             android:textColor="@color/button_month_year_text"
             android:checked="true"/>
 
-    <com.metaphore.qbankcalendar.dayview.TintableImageView
+    <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/month_year_picker_arrow_size"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
@@ -37,7 +37,7 @@
             custom:tint="@color/value_picker_arrow_tint"
             android:visibility="visible"/>
 
-    <com.metaphore.qbankcalendar.dayview.TintableImageView
+    <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/month_year_picker_arrow_size"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
@@ -57,7 +57,7 @@
             android:textColor="@color/button_month_year_text"
             android:checked="false"/>
 
-    <com.metaphore.qbankcalendar.dayview.TintableImageView
+    <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/month_year_picker_arrow_size"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_gravity="center_vertical"
