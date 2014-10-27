@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 
 import static java.util.Calendar.*;
@@ -13,6 +14,7 @@ class InternalUtils {
     public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM");
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
     public static final Calendar CURRENT_DATE = GregorianCalendar.getInstance();
+    public static final Comparator<Calendar> DATE_COMPARATOR = new DayMontYearComparator();
 
     /**
      * Retrieve all the dates for a given calendar month Include previous month,
@@ -110,5 +112,22 @@ class InternalUtils {
         Calendar result = cpy(calendar);
         result.add(DAY_OF_MONTH, days);
         return result;
+    }
+
+    /**
+     * Comparator that use only year, month and day fields to compare calendars
+     */
+    public static class DayMontYearComparator implements Comparator<Calendar> {
+        @Override
+        public int compare(Calendar l, Calendar r) {
+            int yearDif = l.get(Calendar.YEAR) - r.get(Calendar.YEAR);
+            if (yearDif != 0) return yearDif;
+
+            int monthDif = l.get(Calendar.MONTH) - r.get(Calendar.MONTH);
+            if (monthDif != 0) return monthDif;
+
+            int dayDif = l.get(Calendar.DAY_OF_YEAR) - r.get(Calendar.DAY_OF_YEAR);
+            return dayDif;
+        }
     }
 }

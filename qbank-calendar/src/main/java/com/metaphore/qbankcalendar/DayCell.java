@@ -33,8 +33,6 @@ class DayCell extends FrameLayout {
     private boolean passiveEdge;
     private boolean beyondToday;
 
-    private Comparator<Calendar> comparator;
-
     public DayCell(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -47,19 +45,13 @@ class DayCell extends FrameLayout {
         textColor = getResources().getColorStateList(R.color.day_cell_text);
     }
 
-    public void setComparator(Comparator<Calendar> comparator) {
-        this.comparator = comparator;
-    }
-
     public void updateViewState(Calendar date, Calendar currentMonth, Calendar periodBegin,
                                 Calendar periodEnd, EditMode editMode) {
 
-        if (comparator == null) {
-            throw new IllegalStateException("Comparator should be set at this moment.");
-        }
-
         // Attributes calculations
         {
+            Comparator<Calendar> comparator = InternalUtils.DATE_COMPARATOR;
+
             // Reset all attrs
             withinMonth = false;
             withinInterval = false;

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 
 public class QBankCalendarView extends FrameLayout implements
@@ -37,6 +38,7 @@ public class QBankCalendarView extends FrameLayout implements
     }
 
     public void setSelectedInterval(Calendar begin, Calendar end) {
+        normalizeDates(begin, end);
         modePicker.setSelectedInterval(begin, end);
         dayPicker.setSelectedInterval(begin, end);
     }
@@ -99,8 +101,9 @@ public class QBankCalendarView extends FrameLayout implements
     }
 
     @Override
-    public void onDateSelected(Calendar date) {
-        dayPicker.setSelectedDate(date);
+    public void onNewPeriodSelected(Calendar beginDate, Calendar endDate) {
+        normalizeDates(beginDate, endDate);
+        dayPicker.setSelectedInterval(beginDate, endDate);
         modePicker.setSelectedInterval(dayPicker.getBeginDate(), dayPicker.getEndDate());
     }
 
@@ -128,5 +131,41 @@ public class QBankCalendarView extends FrameLayout implements
 
         dayPicker.setCurrentDate(newCurrentDate);
         monthYearPicker.setSelectedDate(newCurrentDate);
+    }
+
+    private void normalizeDates(Calendar beginDate, Calendar endDate) {
+        Comparator<Calendar> comparator = InternalUtils.DATE_COMPARATOR;
+        EditMode editMode = modePicker.getEditMode();
+
+        switch (editMode) {
+            case BEGIN_DATE:
+                // In case of today picked as begin date, we set selected interval to [today-1day, today]
+                if (comparator.compare(beginDate, InternalUtils.CURRENT_DATE) == 0) {
+                    endDate.setTime(InternalUtils.CURRENT_DATE.getTime());
+                    beginDate.setTime(InternalUtils.CURRENT_DATE.getTime());
+                    beginDate.add(Calendar.DAY_OF_YEAR, -1);
+                }
+
+                // In case of begin date greater than end date, we moving end date to beginDate+1month (according to GR.1.6.14)
+                if (comparator.compare(beginDate, endDate) > 0) {
+                    endDate.setTime(beginDate.getTime());
+                    endDate.add(Calendar.MONTH, 1);
+                }
+                break;
+            case END_DATE:
+                // In case of end date less than begin date, we moving begin date to endDate-1month (according to GR.1.6.14)
+                if (comparator.compare(endDate, beginDate) < 0) {
+                    beginDate.setTime(endDate.getTime());
+                    beginDate.add(Calendar.MONTH, -1);
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected editMode: " + editMode);
+        }
+
+        // In case of end date beyond today, set it to today
+        if (comparator.compare(endDate, InternalUtils.CURRENT_DATE) > 0) {
+            endDate.setTime(InternalUtils.CURRENT_DATE.getTime());
+        }
     }
 }

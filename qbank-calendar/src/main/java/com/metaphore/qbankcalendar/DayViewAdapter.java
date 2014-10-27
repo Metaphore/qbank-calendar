@@ -13,13 +13,13 @@ import java.util.GregorianCalendar;
 
 class DayViewAdapter extends BaseAdapter {
     private static final int DAYS_AMOUNT = 7*6;
+    private static final Comparator<Calendar> COMPARATOR = InternalUtils.DATE_COMPARATOR;
 
     private final Context context;
     private final Calendar beginDate = GregorianCalendar.getInstance();
     private final Calendar endDate = GregorianCalendar.getInstance();
     // Used to determine visible month
     private final Calendar currentMonth = GregorianCalendar.getInstance();
-    private final CalendarComparator comparator = new CalendarComparator();
 
     private ArrayList<Calendar> fullWeeks;
     private EditMode editMode = EditMode.BEGIN_DATE;
@@ -59,8 +59,12 @@ class DayViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public EditMode getEditMode() {
+        return editMode;
+    }
+
     public void setSelectionInterval(Calendar begin, Calendar end) {
-        if (comparator.compare(beginDate, begin) == 0 && comparator.compare(endDate, end) == 0) return;
+        if (COMPARATOR.compare(beginDate, begin) == 0 && COMPARATOR.compare(endDate, end) == 0) return;
 
         beginDate.setTime(begin.getTime());
         endDate.setTime(end.getTime());
@@ -69,23 +73,8 @@ class DayViewAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setSelectedDate(Calendar selectedDate) {
-        switch (editMode) {
-            case BEGIN_DATE:
-                if (comparator.compare(beginDate, selectedDate) != 0) {
-                    setSelectionInterval(selectedDate, endDate);
-                }
-                break;
-            case END_DATE:
-                if (comparator.compare(endDate, selectedDate) != 0) {
-                    setSelectionInterval(beginDate, selectedDate);
-                }
-                break;
-        }
-    }
-
     private void generateWeeksData() {
-        if (comparator.compare(beginDate, endDate) >= 0) {
+        if (COMPARATOR.compare(beginDate, endDate) >= 0) {
             throw new IllegalStateException("Begin date cannot be equal or greater than end date.");
         }
         fullWeeks = InternalUtils.getFullWeeks(
@@ -117,8 +106,7 @@ class DayViewAdapter extends BaseAdapter {
     public boolean isEnabled(int position) {
         return isInCurrentMonth(position) &&
                !isBeyondToday(position) &&
-               !isIntervalEdge(position) &&
-               !isDateBesideOtherPeriodEdge(position);
+               !isIntervalEdge(position);
     }
 
     private boolean isInCurrentMonth(int position) {
@@ -128,24 +116,12 @@ class DayViewAdapter extends BaseAdapter {
 
     private boolean isBeyondToday(int position) {
         Calendar date = fullWeeks.get(position);
-        return comparator.compare(date, InternalUtils.CURRENT_DATE) > 0;
+        return COMPARATOR.compare(date, InternalUtils.CURRENT_DATE) > 0;
     }
 
     private boolean isIntervalEdge(int position) {
         Calendar date = fullWeeks.get(position);
-        return comparator.compare(date, beginDate) == 0 || comparator.compare(date, endDate) == 0;
-    }
-
-    private boolean isDateBesideOtherPeriodEdge(int position) {
-        Calendar date = fullWeeks.get(position);
-        switch (editMode) {
-            case BEGIN_DATE:
-                return comparator.compare(date, endDate) > 0;
-            case END_DATE:
-                return comparator.compare(date, beginDate) < 0;
-            default:
-                throw new IllegalStateException("Unexpected editMode state");
-        }
+        return COMPARATOR.compare(date, beginDate) == 0 || COMPARATOR.compare(date, endDate) == 0;
     }
 
     @Override
@@ -156,7 +132,6 @@ class DayViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.day_grid_item, parent, false);
 
             dayCell = (DayCell) view.findViewById(R.id.day_cell);
-            dayCell.setComparator(comparator);
             view.setTag(dayCell);
         } else {
             dayCell = (DayCell) view.getTag();
@@ -166,22 +141,5 @@ class DayViewAdapter extends BaseAdapter {
         dayCell.updateViewState(date, currentMonth, beginDate, endDate, editMode);
 
         return view;
-    }
-
-    /**
-     * Comparator that use only year, month and day fields to compare calendars
-     */
-    public static class CalendarComparator implements Comparator<Calendar> {
-        @Override
-        public int compare(Calendar l, Calendar r) {
-            int yearDif = l.get(Calendar.YEAR) - r.get(Calendar.YEAR);
-            if (yearDif != 0) return yearDif;
-
-            int monthDif = l.get(Calendar.MONTH) - r.get(Calendar.MONTH);
-            if (monthDif != 0) return monthDif;
-
-            int dayDif = l.get(Calendar.DAY_OF_YEAR) - r.get(Calendar.DAY_OF_YEAR);
-            return dayDif;
-        }
     }
 }

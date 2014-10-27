@@ -14,16 +14,15 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 
 import java.util.Calendar;
+import java.util.Comparator;
 
-class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
+class DayView extends FrameLayout {
     private static final String LOG_TAG = DayView.class.getSimpleName();
 
     private final GridView dayGrid;
     private final DayViewAdapter dayViewAdapter;
 
     private DateViewListener dateViewListener;
-
-    private boolean broadcasting;
 
     public DayView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,7 +34,13 @@ class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
         dayViewAdapter = new DayViewAdapter(context);
         dayGrid.setAdapter(dayViewAdapter);
 
-        dayGrid.setOnItemClickListener(this);
+        dayGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Calendar newDate = ((Calendar) dayViewAdapter.getItem(position));
+                onDateSelected(newDate);
+            }
+        });
 
         setClickable(true);
     }
@@ -66,20 +71,30 @@ class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
         dateViewListener = listener;
     }
 
-    public void setSelectedDate(Calendar date) {
-        dayViewAdapter.setSelectedDate(date);
-    }
-
     public void setEditMode(EditMode editMode) {
         dayViewAdapter.setEditMode(editMode);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Calendar newDate = ((Calendar) dayViewAdapter.getItem(position));
+    private void onDateSelected(Calendar selectedDate) {
+        EditMode editMode = dayViewAdapter.getEditMode();
+        Calendar beginDate;
+        Calendar endDate;
+
+        switch (editMode) {
+            case BEGIN_DATE:
+                beginDate = selectedDate;
+                endDate = dayViewAdapter.getEndDate();
+                break;
+            case END_DATE:
+                beginDate = dayViewAdapter.getBeginDate();
+                endDate = selectedDate;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected editMode: " + editMode);
+        }
 
         if (dateViewListener != null) {
-            dateViewListener.onDateSelected(newDate);
+            dateViewListener.onNewPeriodSelected(beginDate, endDate);
         }
     }
 
@@ -98,7 +113,7 @@ class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
     }
 
     public interface DateViewListener {
-        void onDateSelected(Calendar date);
+        void onNewPeriodSelected(Calendar begin, Calendar end);
         void onShowNextMonth();
         void onShowPreviousMonth();
     }
