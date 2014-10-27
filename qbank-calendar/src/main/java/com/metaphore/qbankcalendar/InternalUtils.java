@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 import static java.util.Calendar.*;
 
-public class CalendarUtils {
+class InternalUtils {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM");
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");

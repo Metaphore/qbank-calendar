@@ -17,7 +17,7 @@
             custom:tint="@color/value_picker_arrow_tint"
             android:visibility="visible"/>
 
-    <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
+    <com.metaphore.qbankcalendar.MonthYearButton
             android:layout_width="0dp"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_weight="0.65"
@@ -46,7 +46,7 @@
             custom:tint="@color/value_picker_arrow_tint"
             android:visibility="gone"/>
 
-    <com.metaphore.qbankcalendar.monthyearpicker.ValueButton
+    <com.metaphore.qbankcalendar.MonthYearButton
             android:layout_width="0dp"
             android:layout_height="@dimen/month_year_picker_arrow_size"
             android:layout_weight="0.35"

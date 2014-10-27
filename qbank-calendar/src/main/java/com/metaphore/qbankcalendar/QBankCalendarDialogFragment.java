@@ -128,8 +128,8 @@ public class QBankCalendarDialogFragment extends DialogFragment {
         Calendar end = calendarView.getEndDate();
 
         Log.d(LOG_TAG, "Calendar dialog is successfully closing with selected interval [ " +
-                CalendarUtils.DATE_FORMAT.format(begin.getTime()) + " - " +
-                CalendarUtils.DATE_FORMAT.format(end.getTime()) + " ]");
+                InternalUtils.DATE_FORMAT.format(begin.getTime()) + " - " +
+                InternalUtils.DATE_FORMAT.format(end.getTime()) + " ]");
 
         // Notify listener
         if (listener != null) {

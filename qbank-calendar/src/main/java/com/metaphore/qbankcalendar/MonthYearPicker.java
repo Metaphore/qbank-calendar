@@ -1,4 +1,4 @@
-package com.metaphore.qbankcalendar.monthyearpicker;
+package com.metaphore.qbankcalendar;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -11,19 +11,17 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import com.metaphore.qbankcalendar.CalendarUtils;
-import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class MonthYearPicker extends FrameLayout {
+class MonthYearPicker extends FrameLayout {
     private static final String LOG_TAG = MonthYearPicker.class.getSimpleName();
 
     private final Calendar actualDate;
 
-    private final ValueButton monthButton;
-    private final ValueButton yearButton;
+    private final MonthYearButton monthButton;
+    private final MonthYearButton yearButton;
     private final View arrowMonthLeft;
     private final View arrowMonthRight;
     private final View arrowYearLeft;
@@ -39,8 +37,8 @@ public class MonthYearPicker extends FrameLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.month_year_picker, this, true);
 
-        monthButton = (ValueButton) findViewById(R.id.month_button);
-        yearButton = (ValueButton) findViewById(R.id.year_button);
+        monthButton = (MonthYearButton) findViewById(R.id.month_button);
+        yearButton = (MonthYearButton) findViewById(R.id.year_button);
         arrowMonthLeft = findViewById(R.id.month_arrow_left);
         arrowMonthRight = findViewById(R.id.month_arrow_right);
         arrowYearLeft = findViewById(R.id.year_arrow_left);
@@ -98,7 +96,7 @@ public class MonthYearPicker extends FrameLayout {
     public void setSelectedDate(Calendar date) {
         String[] monthList = getResources().getStringArray(R.array.month_list);
         String month = monthList[date.get(Calendar.MONTH)];
-        String year =  CalendarUtils.YEAR_FORMAT.format(date.getTime());
+        String year =  InternalUtils.YEAR_FORMAT.format(date.getTime());
         monthButton.setText(month);
         yearButton.setText(year);
 

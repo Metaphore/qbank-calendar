@@ -6,7 +6,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-public class TintableImageView extends ImageView {
+class TintableImageView extends ImageView {
 
     private ColorStateList tint;
 

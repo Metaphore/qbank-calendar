@@ -1,4 +1,4 @@
-package com.metaphore.qbankcalendar.dayview;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.metaphore.qbankcalendar.EditMode;
-import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 import java.util.Comparator;

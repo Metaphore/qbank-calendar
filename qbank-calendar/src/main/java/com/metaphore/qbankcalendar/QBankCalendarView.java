@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import com.metaphore.qbankcalendar.dayview.DayView;
-import com.metaphore.qbankcalendar.modepicker.ModePicker;
-import com.metaphore.qbankcalendar.monthyearpicker.MonthYearPicker;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

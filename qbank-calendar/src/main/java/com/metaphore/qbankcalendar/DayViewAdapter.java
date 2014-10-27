@@ -1,13 +1,10 @@
-package com.metaphore.qbankcalendar.dayview;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.metaphore.qbankcalendar.CalendarUtils;
-import com.metaphore.qbankcalendar.EditMode;
-import com.metaphore.qbankcalendar.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -91,7 +88,7 @@ class DayViewAdapter extends BaseAdapter {
         if (comparator.compare(beginDate, endDate) >= 0) {
             throw new IllegalStateException("Begin date cannot be equal or greater than end date.");
         }
-        fullWeeks = CalendarUtils.getFullWeeks(
+        fullWeeks = InternalUtils.getFullWeeks(
                 currentMonth.get(Calendar.YEAR),
                 currentMonth.get(Calendar.MONTH));
     }

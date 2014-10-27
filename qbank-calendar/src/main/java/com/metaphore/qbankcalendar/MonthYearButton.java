@@ -1,12 +1,12 @@
-package com.metaphore.qbankcalendar.monthyearpicker;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CompoundButton;
 
-class ValueButton extends CompoundButton {
+class MonthYearButton extends CompoundButton {
 
-    public ValueButton(Context context, AttributeSet attrs) {
+    public MonthYearButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClickable(true);
     }

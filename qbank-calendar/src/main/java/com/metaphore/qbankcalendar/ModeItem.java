@@ -1,4 +1,4 @@
-package com.metaphore.qbankcalendar.modepicker;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.metaphore.qbankcalendar.CalendarUtils;
-import com.metaphore.qbankcalendar.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -51,14 +49,14 @@ class ModeItem extends FrameLayout implements Checkable {
 
     public Date getSelectedDate() {
         try {
-            return CalendarUtils.DATE_FORMAT.parse(selectedDate.getText().toString());
+            return InternalUtils.DATE_FORMAT.parse(selectedDate.getText().toString());
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void setSelectedDate(Calendar date) {
-        selectedDate.setText(CalendarUtils.DATE_FORMAT.format(date.getTime()));
+        selectedDate.setText(InternalUtils.DATE_FORMAT.format(date.getTime()));
         invalidate();
         requestLayout();
     }

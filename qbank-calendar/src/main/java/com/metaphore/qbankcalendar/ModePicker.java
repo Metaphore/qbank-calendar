@@ -1,21 +1,18 @@
-package com.metaphore.qbankcalendar.modepicker;
+package com.metaphore.qbankcalendar;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
-import com.metaphore.qbankcalendar.EditMode;
-import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 
-public class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener {
+class ModePicker extends FrameLayout implements ModeItem.OnCheckedChangeListener {
 
     private static final String LOG_TAG = ModePicker.class.getSimpleName();
 

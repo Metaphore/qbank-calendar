@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.metaphore.qbankcalendar.modepicker.ModeItem
+    <com.metaphore.qbankcalendar.ModeItem
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -17,7 +17,7 @@
             custom:text_color="@color/mode_picker_text"
             android:checked="true"/>
 
-    <com.metaphore.qbankcalendar.modepicker.ModeItem
+    <com.metaphore.qbankcalendar.ModeItem
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

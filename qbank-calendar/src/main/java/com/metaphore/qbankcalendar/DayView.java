@@ -1,26 +1,21 @@
-package com.metaphore.qbankcalendar.dayview;
+package com.metaphore.qbankcalendar;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import com.metaphore.qbankcalendar.EditMode;
-import com.metaphore.qbankcalendar.R;
 
 import java.util.Calendar;
 
-public class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
+class DayView extends FrameLayout implements AdapterView.OnItemClickListener {
     private static final String LOG_TAG = DayView.class.getSimpleName();
 
     private final GridView dayGrid;

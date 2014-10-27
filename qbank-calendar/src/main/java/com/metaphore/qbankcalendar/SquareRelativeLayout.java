@@ -1,4 +1,4 @@
-package com.metaphore.qbankcalendar.dayview;
+package com.metaphore.qbankcalendar;
 
 import android.content.Context;
 import android.util.AttributeSet;

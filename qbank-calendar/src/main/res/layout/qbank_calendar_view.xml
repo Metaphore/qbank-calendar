@@ -7,19 +7,19 @@
         android:layout_height="wrap_content"
         android:background="@color/background_base">
 
-    <com.metaphore.qbankcalendar.modepicker.ModePicker
+    <com.metaphore.qbankcalendar.ModePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:id="@+id/mode_picker"/>
 
-    <com.metaphore.qbankcalendar.monthyearpicker.MonthYearPicker
+    <com.metaphore.qbankcalendar.MonthYearPicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:id="@+id/month_year_picker"/>
 
-    <com.metaphore.qbankcalendar.dayview.DayView
+    <com.metaphore.qbankcalendar.DayView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
