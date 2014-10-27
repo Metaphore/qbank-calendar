@@ -94,9 +94,9 @@ public class MonthYearPicker extends FrameLayout {
     }
 
     public void setSelectedDate(Calendar date) {
-        Date time = date.getTime();
-        String month = CalendarUtils.MONTH_FORMAT.format(time);
-        String year =  CalendarUtils.YEAR_FORMAT.format(time);
+        String[] monthList = getResources().getStringArray(R.array.month_list);
+        String month = monthList[date.get(Calendar.MONTH)];
+        String year =  CalendarUtils.YEAR_FORMAT.format(date.getTime());
         monthButton.setText(month);
         yearButton.setText(year);
     }

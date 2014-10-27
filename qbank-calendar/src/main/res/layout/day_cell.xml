@@ -8,8 +8,8 @@
         android:id="@+id/container">
 
     <com.metaphore.qbankcalendar.dayview.TintableImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/day_cell_continue_marker_size"
+            android:layout_height="@dimen/day_cell_continue_marker_size"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:id="@+id/continue_marker"
@@ -23,6 +23,6 @@
             android:layout_centerInParent="true"
             android:id="@+id/day_number"
             android:gravity="center"
-            android:textSize="32sp"/>
+            android:textSize="@dimen/day_cell_text_size"/>
 
 </com.metaphore.qbankcalendar.dayview.SquareRelativeLayout>
