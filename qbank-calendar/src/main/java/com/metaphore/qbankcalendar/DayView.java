@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -30,6 +33,8 @@ class DayView extends FrameLayout {
 
     private DateViewListener dateViewListener;
 
+    private final GestureDetector gestureDetector;
+
     public DayView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -49,6 +54,9 @@ class DayView extends FrameLayout {
         });
 
         setClickable(true);
+        setLongClickable(true);
+
+        gestureDetector = new GestureDetector(context, new GestureListener());
     }
 
     public void setSelectedInterval(Calendar begin, Calendar end) {
@@ -152,4 +160,55 @@ class DayView extends FrameLayout {
         void onShowNextMonth();
         void onShowPreviousMonth();
     }
+
+    //region Swipe to change month implementation
+    @Override
+    public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return super.dispatchTouchEvent(event);
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_DISTANCE_THRESHOLD = 100;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            float distanceX = e2.getX() - e1.getX();
+            float distanceY = e2.getY() - e1.getY();
+            if (Math.abs(distanceX) > Math.abs(distanceY) &&
+                    Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD &&
+                    Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+
+                if (distanceX > 0)
+                    onSwipeRight();
+                else
+                    onSwipeLeft();
+                return true;
+            }
+            return false;
+        }
+
+        private void onSwipeRight() {
+            Log.d(LOG_TAG, "Swipe right");
+
+            if (dateViewListener != null) {
+                dateViewListener.onShowPreviousMonth();
+            }
+        }
+
+        private void onSwipeLeft() {
+            Log.d(LOG_TAG, "Swipe left");
+
+            // If shown month is a actual month, we cancel change to next month action
+            if (InternalUtils.DATE_COMPARATOR.compare(getCurrentDate(), InternalUtils.CURRENT_DATE) >= 0) {
+                return;
+            }
+
+            if (dateViewListener != null) {
+                dateViewListener.onShowNextMonth();
+            }
+        }
+    }
+    //endregion
 }
