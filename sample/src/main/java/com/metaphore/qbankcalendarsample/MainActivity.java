@@ -3,16 +3,14 @@ package com.metaphore.qbankcalendarsample;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import com.metaphore.qbankcalendar.EditMode;
-import com.metaphore.qbankcalendar.QBankCalendarDialogFragment;
-import com.metaphore.qbankcalendar.QBankCalendarView;
+import com.metaphore.qbankcalendar.*;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
 public class MainActivity extends FragmentActivity implements
-        QBankCalendarDialogFragment.QBankCalendarFragmentListener{
+        QBankCalendarListener {
 
     private static final String TAG_CALENDAR_FRAGMENT = "tag_calendar_fragment";
 
@@ -32,15 +30,21 @@ public class MainActivity extends FragmentActivity implements
             calendarView.setSelectedInterval(begin, end);
         }
 
-        findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fragment_dialog_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCalendarDialog();
+                showFragmentCalendarDialog();
+            }
+        });
+        findViewById(R.id.regular_dialog_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRegularCalendarDialog();
             }
         });
     }
 
-    private void showCalendarDialog() {
+    private void showFragmentCalendarDialog() {
         Calendar beginDate = calendarView.getBeginDate();
         Calendar endDate = calendarView.getEndDate();
         EditMode editMode = calendarView.getEditMode();
@@ -52,6 +56,16 @@ public class MainActivity extends FragmentActivity implements
 //                QBankCalendarDialogFragment.newInstance(EditMode.END_DATE);
 
         calendarFragment.show(getSupportFragmentManager(), TAG_CALENDAR_FRAGMENT);
+    }
+
+    private void showRegularCalendarDialog() {
+        Calendar beginDate = calendarView.getBeginDate();
+        Calendar endDate = calendarView.getEndDate();
+        EditMode editMode = calendarView.getEditMode();
+
+        QBankCalendarDialog dialog = new QBankCalendarDialog(this, beginDate, endDate, editMode);
+        dialog.setQBankCalendarListener(this);
+        dialog.show();
     }
 
     @Override

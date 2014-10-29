@@ -16,10 +16,18 @@
             android:layout_marginTop="20dp">
 
         <Button
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/show_dialog"
-                android:text="Show dialog"/>
+                android:layout_weight="0.5"
+                android:id="@+id/fragment_dialog_button"
+                android:text="Fragment dialog"/>
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:id="@+id/regular_dialog_button"
+                android:text="Regular dialog"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -10,6 +10,8 @@
     <com.metaphore.qbankcalendar.TintableImageView
             android:layout_width="@dimen/day_cell_continue_marker_size"
             android:layout_height="@dimen/day_cell_continue_marker_size"
+            android:layout_marginRight="@dimen/day_cell_continue_marker_side_margin"
+            android:layout_marginLeft="@dimen/day_cell_continue_marker_side_margin"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:id="@+id/continue_marker"

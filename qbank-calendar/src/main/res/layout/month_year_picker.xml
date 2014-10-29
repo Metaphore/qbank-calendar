@@ -26,6 +26,7 @@
             android:background="@drawable/button_month_year_bg"
             android:gravity="center"
             android:textColor="@color/button_month_year_text"
+            android:textSize="@dimen/month_year_picker_text_size"
             android:checked="true"/>
 
     <com.metaphore.qbankcalendar.TintableImageView
@@ -55,6 +56,7 @@
             android:background="@drawable/button_month_year_bg"
             android:gravity="center"
             android:textColor="@color/button_month_year_text"
+            android:textSize="@dimen/month_year_picker_text_size"
             android:checked="false"/>
 
     <com.metaphore.qbankcalendar.TintableImageView

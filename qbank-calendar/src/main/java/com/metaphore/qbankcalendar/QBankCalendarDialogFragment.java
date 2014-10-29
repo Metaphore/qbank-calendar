@@ -23,7 +23,7 @@ public class QBankCalendarDialogFragment extends DialogFragment {
     private static final int WRONG_MODE = -1;
 
     private QBankCalendarView calendarView;
-    private QBankCalendarFragmentListener listener;
+    private QBankCalendarListener listener;
 
     //region newInstance convenience methods
 
@@ -88,40 +88,40 @@ public class QBankCalendarDialogFragment extends DialogFragment {
     }
     //endregion
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_qbank_calendar_dialog, container, false);
-
-        calendarView = ((QBankCalendarView) view.findViewById(R.id.calendar_view));
-
-        view.findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeWithSuccess();
-            }
-        });
-
-        if (savedInstanceState == null) {
-            int modeOrdinal = getArguments().getInt(KEY_EDIT_MODE, WRONG_MODE);
-            long beginDateMs = getArguments().getLong(KEY_BEGIN_DATE, WRONG_MODE);
-            long endDateMs = getArguments().getLong(KEY_END_DATE, WRONG_MODE);
-
-            if (modeOrdinal == WRONG_MODE) {
-                throw new IllegalStateException("You should use one of proper QBankCalendarDialogFragment#newInstance() methods to instantiate this class");
-            }
-
-            EditMode editMode = EditMode.values()[modeOrdinal];
-            Calendar begin = GregorianCalendar.getInstance();
-            Calendar end = GregorianCalendar.getInstance();
-            begin.setTimeInMillis(beginDateMs);
-            end.setTimeInMillis(endDateMs);
-
-            calendarView.setSelectedInterval(begin, end);
-            calendarView.setEditMode(editMode);
-        }
-
-        return view;
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fragment_qbank_calendar_dialog, container, false);
+//
+//        calendarView = ((QBankCalendarView) view.findViewById(R.id.calendar_view));
+//
+//        view.findViewById(R.id.button_ok).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                closeWithSuccess();
+//            }
+//        });
+//
+//        if (savedInstanceState == null) {
+//            int modeOrdinal = getArguments().getInt(KEY_EDIT_MODE, WRONG_MODE);
+//            long beginDateMs = getArguments().getLong(KEY_BEGIN_DATE, WRONG_MODE);
+//            long endDateMs = getArguments().getLong(KEY_END_DATE, WRONG_MODE);
+//
+//            if (modeOrdinal == WRONG_MODE) {
+//                throw new IllegalStateException("You should use one of proper QBankCalendarDialogFragment#newInstance() methods to instantiate this class");
+//            }
+//
+//            EditMode editMode = EditMode.values()[modeOrdinal];
+//            Calendar begin = GregorianCalendar.getInstance();
+//            Calendar end = GregorianCalendar.getInstance();
+//            begin.setTimeInMillis(beginDateMs);
+//            end.setTimeInMillis(endDateMs);
+//
+//            calendarView.setSelectedInterval(begin, end);
+//            calendarView.setEditMode(editMode);
+//        }
+//
+//        return view;
+//    }
 
     private void closeWithSuccess() {
         Calendar begin = calendarView.getBeginDate();
@@ -143,28 +143,42 @@ public class QBankCalendarDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        Dialog dialog = super.onCreateDialog(savedInstanceState);
+//        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        return dialog;
+
+        int modeOrdinal = getArguments().getInt(KEY_EDIT_MODE, WRONG_MODE);
+        long beginDateMs = getArguments().getLong(KEY_BEGIN_DATE, WRONG_MODE);
+        long endDateMs = getArguments().getLong(KEY_END_DATE, WRONG_MODE);
+
+        if (modeOrdinal == WRONG_MODE) {
+            throw new IllegalStateException("You should use one of proper QBankCalendarDialogFragment#newInstance() methods to instantiate this class");
+        }
+
+        EditMode editMode = EditMode.values()[modeOrdinal];
+        Calendar begin = GregorianCalendar.getInstance();
+        Calendar end = GregorianCalendar.getInstance();
+        begin.setTimeInMillis(beginDateMs);
+        end.setTimeInMillis(endDateMs);
+
+        QBankCalendarDialog dialog = new QBankCalendarDialog(getActivity(), begin, end, editMode);
+        dialog.setQBankCalendarListener(((QBankCalendarListener) getActivity()));
         return dialog;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof QBankCalendarFragmentListener) {
-            listener = (QBankCalendarFragmentListener) activity;
+        if (activity instanceof QBankCalendarListener) {
+//            listener = (QBankCalendarListener) activity;
         } else {
             throw new IllegalStateException("Underlying activity should implement QBankCalendarFragment.QBankCalendarFragmentListener to use QBankCalendarFragment fragment");
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-    public interface QBankCalendarFragmentListener {
-        void onDateIntervalChanged(Calendar begin, Calendar end);
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        listener = null;
+//    }
 }

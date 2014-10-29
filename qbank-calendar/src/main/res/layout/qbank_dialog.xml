@@ -3,27 +3,28 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/background_base">
 
     <com.metaphore.qbankcalendar.QBankCalendarView
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dialog_width"
             android:layout_height="wrap_content"
             android:id="@+id/calendar_view"/>
 
     <Button
             android:layout_width="match_parent"
-            android:layout_height="84px"
-            android:layout_marginTop="40px"
-            android:layout_marginBottom="33px"
-            android:layout_marginLeft="33px"
-            android:layout_marginRight="33px"
-            android:padding="8dp"
+            android:layout_height="@dimen/button_ok_height"
+            android:layout_marginTop="@dimen/button_ok_top_margin"
+            android:layout_marginBottom="@dimen/button_ok_margin"
+            android:layout_marginLeft="@dimen/button_ok_margin"
+            android:layout_marginRight="@dimen/button_ok_margin"
             android:id="@+id/button_ok"
+            android:padding="8dp"
             android:background="@drawable/button_ok_bg"
             android:textColor="@color/text_light"
             android:textStyle="bold"
-            android:text="@string/ok"/>
+            android:text="@string/ok"
+            android:textSize="@dimen/button_ok_text_size"/>
 
 </LinearLayout>

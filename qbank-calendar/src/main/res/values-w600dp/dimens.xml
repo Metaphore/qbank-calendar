@@ -1,0 +1,20 @@
+<resources>
+
+    <dimen name="dialog_width">400dp</dimen>
+
+    <dimen name="mode_pick_text_size">17dp</dimen>
+
+    <dimen name="month_year_picker_text_size">20dp</dimen>
+
+    <dimen name="week_day_vertical_margin">2dp</dimen>
+
+    <dimen name="day_cell_continue_marker_side_margin">3dp</dimen>
+    <dimen name="day_cell_continue_marker_size">22dp</dimen>
+    <dimen name="day_cell_text_size">20dp</dimen>
+
+    <dimen name="button_ok_margin">20dp</dimen>
+    <dimen name="button_ok_top_margin">10dp</dimen>
+    <dimen name="button_ok_height">48dp</dimen>
+    <dimen name="button_ok_text_size">20dp</dimen>
+
+</resources>
