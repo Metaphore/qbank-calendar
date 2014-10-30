@@ -108,11 +108,15 @@ class MonthYearPicker extends FrameLayout {
     }
 
     private void updateArrowsEnabledState(Calendar date) {
-        boolean edgeDate = date.get(Calendar.YEAR) >= InternalUtils.CURRENT_DATE.get(Calendar.YEAR) &&
+        Calendar currentDate = InternalUtils.CURRENT_DATE;
+
+        boolean exceededMonth = date.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR) &&
                         date.get(Calendar.MONTH) >= InternalUtils.CURRENT_DATE.get(Calendar.MONTH);
 
-        arrowMonthRight.setEnabled(!edgeDate);
-        arrowYearRight.setEnabled(!edgeDate);
+        boolean exceededYear = date.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR);
+
+        arrowMonthRight.setEnabled(!exceededMonth);
+        arrowYearRight.setEnabled(!exceededYear);
     }
 
     private void onMonthChecked() {

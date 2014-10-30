@@ -129,6 +129,11 @@ public class QBankCalendarView extends FrameLayout implements
         newCurrentDate.setTime(currentDate.getTime());
         newCurrentDate.add(calendarField, value);
 
+        // Normalize
+        if (InternalUtils.DATE_COMPARATOR.compare(newCurrentDate, InternalUtils.CURRENT_DATE) > 0) {
+            newCurrentDate = InternalUtils.CURRENT_DATE;
+        }
+
         dayPicker.setCurrentDate(newCurrentDate);
         monthYearPicker.setSelectedDate(newCurrentDate);
     }
