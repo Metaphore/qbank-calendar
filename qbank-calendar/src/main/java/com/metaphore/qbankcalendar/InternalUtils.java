@@ -11,10 +11,18 @@ import static java.util.Calendar.*;
 
 class InternalUtils {
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    public static final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM");
     public static final DateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
-    public static final Calendar CURRENT_DATE = GregorianCalendar.getInstance();
     public static final Comparator<Calendar> DATE_COMPARATOR = new DayMontYearComparator();
+
+    private static Calendar currentDate = GregorianCalendar.getInstance();
+
+    public static Calendar getCurrentDate() {
+        return currentDate;
+    }
+
+    public static void updateCurrentDate() {
+        currentDate = GregorianCalendar.getInstance();
+    }
 
     /**
      * Retrieve all the dates for a given calendar month Include previous month,

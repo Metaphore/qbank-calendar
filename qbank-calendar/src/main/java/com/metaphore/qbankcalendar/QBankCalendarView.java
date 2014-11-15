@@ -1,6 +1,7 @@
 package com.metaphore.qbankcalendar;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -130,8 +131,8 @@ public class QBankCalendarView extends FrameLayout implements
         newCurrentDate.add(calendarField, value);
 
         // Normalize
-        if (InternalUtils.DATE_COMPARATOR.compare(newCurrentDate, InternalUtils.CURRENT_DATE) > 0) {
-            newCurrentDate = InternalUtils.CURRENT_DATE;
+        if (InternalUtils.DATE_COMPARATOR.compare(newCurrentDate, InternalUtils.getCurrentDate()) > 0) {
+            newCurrentDate = InternalUtils.getCurrentDate();
         }
 
         dayPicker.setCurrentDate(newCurrentDate);
@@ -145,13 +146,13 @@ public class QBankCalendarView extends FrameLayout implements
         switch (editMode) {
             case BEGIN_DATE:
                 // In case of today picked as begin date, we set selected interval to [today-1day, today]
-                if (comparator.compare(beginDate, InternalUtils.CURRENT_DATE) == 0) {
-                    endDate.setTime(InternalUtils.CURRENT_DATE.getTime());
-                    beginDate.setTime(InternalUtils.CURRENT_DATE.getTime());
+                if (comparator.compare(beginDate, InternalUtils.getCurrentDate()) == 0) {
+                    endDate.setTime(InternalUtils.getCurrentDate().getTime());
+                    beginDate.setTime(InternalUtils.getCurrentDate().getTime());
                     beginDate.add(Calendar.DAY_OF_YEAR, -1);
                 }
 
-                // In case of begin date greater than end date, we moving end date to beginDate+1month (according to GR.1.6.14)
+                // In case of begin date greater than end date, we are moving end date to beginDate+1month (according to GR.1.6.14)
                 if (comparator.compare(beginDate, endDate) > 0) {
                     endDate.setTime(beginDate.getTime());
                     endDate.add(Calendar.MONTH, 1);
@@ -169,8 +170,15 @@ public class QBankCalendarView extends FrameLayout implements
         }
 
         // In case of end date beyond today, set it to today
-        if (comparator.compare(endDate, InternalUtils.CURRENT_DATE) > 0) {
-            endDate.setTime(InternalUtils.CURRENT_DATE.getTime());
+        if (comparator.compare(endDate, InternalUtils.getCurrentDate()) > 0) {
+            endDate.setTime(InternalUtils.getCurrentDate().getTime());
         }
+    }
+
+    public void onResume() {
+        InternalUtils.updateCurrentDate();
+
+        // Reassign dates to trigger validation
+        setSelectedInterval(dayPicker.getBeginDate(), dayPicker.getEndDate());
     }
 }

@@ -108,10 +108,10 @@ class MonthYearPicker extends FrameLayout {
     }
 
     private void updateArrowsEnabledState(Calendar date) {
-        Calendar currentDate = InternalUtils.CURRENT_DATE;
+        Calendar currentDate = InternalUtils.getCurrentDate();
 
         boolean exceededMonth = date.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR) &&
-                        date.get(Calendar.MONTH) >= InternalUtils.CURRENT_DATE.get(Calendar.MONTH);
+                        date.get(Calendar.MONTH) >= InternalUtils.getCurrentDate().get(Calendar.MONTH);
 
         boolean exceededYear = date.get(Calendar.YEAR) >= currentDate.get(Calendar.YEAR);
 

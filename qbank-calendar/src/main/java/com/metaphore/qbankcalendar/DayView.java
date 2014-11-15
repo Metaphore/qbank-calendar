@@ -201,7 +201,7 @@ class DayView extends FrameLayout {
             Log.d(LOG_TAG, "Swipe left");
 
             // If shown month is a actual month, we cancel change to next month action
-            if (InternalUtils.DATE_COMPARATOR.compare(getCurrentDate(), InternalUtils.CURRENT_DATE) >= 0) {
+            if (InternalUtils.DATE_COMPARATOR.compare(getCurrentDate(), InternalUtils.getCurrentDate()) >= 0) {
                 return;
             }
 

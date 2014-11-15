@@ -116,7 +116,7 @@ class DayViewAdapter extends BaseAdapter {
 
     private boolean isBeyondToday(int position) {
         Calendar date = fullWeeks.get(position);
-        return COMPARATOR.compare(date, InternalUtils.CURRENT_DATE) > 0;
+        return COMPARATOR.compare(date, InternalUtils.getCurrentDate()) > 0;
     }
 
     private boolean isIntervalEdge(int position) {

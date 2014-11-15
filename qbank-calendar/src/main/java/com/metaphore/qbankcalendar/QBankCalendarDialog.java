@@ -6,9 +6,13 @@ import android.view.View;
 
 import java.util.Calendar;
 
+/**
+ * Don't forget to explicitly call onResume() from outer activity/fragment
+ */
 public class QBankCalendarDialog extends Dialog {
 
     private QBankCalendarListener dialogListener;
+    private final QBankCalendarView calendarView;
 
     public QBankCalendarDialog(Context context, Calendar beginDate, Calendar endDate, EditMode editMode) {
         super(context, R.style.DialogStyle);
@@ -25,7 +29,7 @@ public class QBankCalendarDialog extends Dialog {
 
         this.setContentView(R.layout.qbank_dialog);
 
-        final QBankCalendarView calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
+        calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
         calendarView.setSelectedInterval(beginDate, endDate);
         calendarView.setEditMode(editMode);
 
@@ -45,5 +49,9 @@ public class QBankCalendarDialog extends Dialog {
 
     public void setQBankCalendarListener(QBankCalendarListener dialogListener) {
         this.dialogListener = dialogListener;
+    }
+
+    public void onResume() {
+        calendarView.onResume();
     }
 }

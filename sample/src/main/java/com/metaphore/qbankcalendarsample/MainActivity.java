@@ -1,5 +1,6 @@
 package com.metaphore.qbankcalendarsample;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -15,6 +16,7 @@ public class MainActivity extends FragmentActivity implements
     private static final String TAG_CALENDAR_FRAGMENT = "tag_calendar_fragment";
 
     private QBankCalendarView calendarView;
+    private QBankCalendarDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,18 @@ public class MainActivity extends FragmentActivity implements
         });
     }
 
+    // You have to directly call onResume() for QBankCalendarView and QBankCalendarDialog
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        calendarView.onResume();
+
+        if (dialog != null) {
+            dialog.onResume();
+        }
+    }
+
     private void showFragmentCalendarDialog() {
         Calendar beginDate = calendarView.getBeginDate();
         Calendar endDate = calendarView.getEndDate();
@@ -63,9 +77,15 @@ public class MainActivity extends FragmentActivity implements
         Calendar endDate = calendarView.getEndDate();
         EditMode editMode = calendarView.getEditMode();
 
-        QBankCalendarDialog dialog = new QBankCalendarDialog(this, beginDate, endDate, editMode);
+        dialog = new QBankCalendarDialog(this, beginDate, endDate, editMode);
         dialog.setQBankCalendarListener(this);
         dialog.show();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dialog = null;
+            }
+        });
     }
 
     @Override

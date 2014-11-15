@@ -68,7 +68,7 @@ class DayCell extends FrameLayout {
                     comparator.compare(date, periodEnd) <= 0;
 
             // beyondToday determines whenever day is after actual current date
-            beyondToday = comparator.compare(date, InternalUtils.CURRENT_DATE) > 0;
+            beyondToday = comparator.compare(date, InternalUtils.getCurrentDate()) > 0;
 
             // activeEdge and passiveEdge are edges of selected period and depend on current editMode
             switch (editMode) {
