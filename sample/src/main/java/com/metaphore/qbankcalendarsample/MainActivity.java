@@ -26,9 +26,19 @@ public class MainActivity extends FragmentActivity implements
         calendarView = ((QBankCalendarView) findViewById(R.id.calendar_view));
 
         if (savedInstanceState == null) {
+            // By default set initial interval to [today; today - month]
+            Calendar end = GregorianCalendar.getInstance();
             Calendar begin = GregorianCalendar.getInstance();
             begin.add(Calendar.MONTH, -1);
-            Calendar end = GregorianCalendar.getInstance();
+
+            // According to SRS:
+            // In case of initial end date is a last date of month,
+            // begin date should be first date of same month.
+            if (end.get(Calendar.DAY_OF_MONTH) == end.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                begin.setTime(end.getTime());
+                begin.set(Calendar.DAY_OF_MONTH, 1);
+            }
+
             calendarView.setSelectedInterval(begin, end);
         }
 
@@ -59,9 +69,9 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void showFragmentCalendarDialog() {
+        EditMode editMode = calendarView.getEditMode();
         Calendar beginDate = calendarView.getBeginDate();
         Calendar endDate = calendarView.getEndDate();
-        EditMode editMode = calendarView.getEditMode();
 
         QBankCalendarDialogFragment calendarFragment =
                 QBankCalendarDialogFragment.newInstance(beginDate, endDate, editMode);
@@ -73,9 +83,9 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void showRegularCalendarDialog() {
+        EditMode editMode = calendarView.getEditMode();
         Calendar beginDate = calendarView.getBeginDate();
         Calendar endDate = calendarView.getEndDate();
-        EditMode editMode = calendarView.getEditMode();
 
         dialog = new QBankCalendarDialog(this, beginDate, endDate, editMode);
         dialog.setQBankCalendarListener(this);
@@ -93,3 +103,4 @@ public class MainActivity extends FragmentActivity implements
         calendarView.setSelectedInterval(begin, end);
     }
 }
+
