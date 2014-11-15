@@ -20,7 +20,7 @@
     <color name="day_cell_edge_active">#88b824</color>
     <color name="day_cell_edge_passive">#daefa0</color>
     <color name="day_cell_pressed">#daefa0</color>
-    <color name="day_cell_continue_marker">#88b824</color>
+    <color name="day_cell_continue_marker">#697e2f</color>
 
     <color name="rounded_rect_dgreen">#88b824</color>
     <color name="rounded_rect_lgreen">#daefa0</color>
