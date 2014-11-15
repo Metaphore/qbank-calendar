@@ -74,8 +74,8 @@ class DayViewAdapter extends BaseAdapter {
     }
 
     private void generateWeeksData() {
-        if (COMPARATOR.compare(beginDate, endDate) >= 0) {
-            throw new IllegalStateException("Begin date cannot be equal or greater than end date.");
+        if (COMPARATOR.compare(beginDate, endDate) > 0) {
+            throw new IllegalStateException("Begin date cannot be greater than end date.");
         }
         fullWeeks = InternalUtils.getFullWeeks(
                 currentMonth.get(Calendar.YEAR),
@@ -105,8 +105,7 @@ class DayViewAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
         return isInCurrentMonth(position) &&
-               !isBeyondToday(position) &&
-               !isIntervalEdge(position);
+               !isBeyondToday(position);
     }
 
     private boolean isInCurrentMonth(int position) {
@@ -117,11 +116,6 @@ class DayViewAdapter extends BaseAdapter {
     private boolean isBeyondToday(int position) {
         Calendar date = fullWeeks.get(position);
         return COMPARATOR.compare(date, InternalUtils.getCurrentDate()) > 0;
-    }
-
-    private boolean isIntervalEdge(int position) {
-        Calendar date = fullWeeks.get(position);
-        return COMPARATOR.compare(date, beginDate) == 0 || COMPARATOR.compare(date, endDate) == 0;
     }
 
     @Override

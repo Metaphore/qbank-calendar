@@ -145,13 +145,6 @@ public class QBankCalendarView extends FrameLayout implements
 
         switch (editMode) {
             case BEGIN_DATE:
-                // In case of today picked as begin date, we set selected interval to [today-1day, today]
-                if (comparator.compare(beginDate, InternalUtils.getCurrentDate()) == 0) {
-                    endDate.setTime(InternalUtils.getCurrentDate().getTime());
-                    beginDate.setTime(InternalUtils.getCurrentDate().getTime());
-                    beginDate.add(Calendar.DAY_OF_YEAR, -1);
-                }
-
                 // In case of begin date greater than end date, we are moving end date to beginDate+1month (according to GR.1.6.14)
                 if (comparator.compare(beginDate, endDate) > 0) {
                     endDate.setTime(beginDate.getTime());
@@ -169,7 +162,14 @@ public class QBankCalendarView extends FrameLayout implements
                 throw new IllegalStateException("Unexpected editMode: " + editMode);
         }
 
-        // In case of end date beyond today, set it to today
+        // In case of begin date equal or greater than today, we set selected interval to [today, today]
+        if (comparator.compare(beginDate, InternalUtils.getCurrentDate()) >= 0) {
+            endDate.setTime(InternalUtils.getCurrentDate().getTime());
+            beginDate.setTime(InternalUtils.getCurrentDate().getTime());
+//                    beginDate.add(Calendar.DAY_OF_YEAR, -1);
+        }
+
+        // In case of end date greater than today, set it to today
         if (comparator.compare(endDate, InternalUtils.getCurrentDate()) > 0) {
             endDate.setTime(InternalUtils.getCurrentDate().getTime());
         }
