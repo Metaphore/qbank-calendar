@@ -1,6 +1,6 @@
 <resources>
 
-    <dimen name="general_roundness">3dp</dimen>
+    <dimen name="general_roundness">0dp</dimen>
     <dimen name="dialog_width">250dp</dimen>
 
     <dimen name="mode_pick_item_shadow">1dp</dimen>
