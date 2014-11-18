@@ -16,19 +16,22 @@ class DayCell extends FrameLayout {
 
     private static final int[] WITHIN_MONTH = {R.attr.state_within_month};
     private static final int[] WITHIN_INTERVAL = {R.attr.state_within_interval};
-    private static final int[] CONTINUE_EDGE = {R.attr.state_continue_edge};
+    private static final int[] CONTINUE_RIGHT = {R.attr.state_continue_right};
+    private static final int[] CONTINUE_LEFT = {R.attr.state_continue_left};
     private static final int[] ACTIVE_EDGE = {R.attr.state_active_edge};
     private static final int[] PASSIVE_EDGE = {R.attr.state_passive_edge};
     private static final int[] BEYOND_TODAY = {R.attr.state_beyond_today};
 
     private final TextView dayNumber;
-    private final View continueMarker;
+    private final View continueMarkerRight;
+    private final View continueMarkerLeft;
     private final ColorStateList textColor;
 
     // You can find field descriptions to DayCell#updateViewState
     private boolean withinMonth;
     private boolean withinInterval;
-    private boolean continueEdge;
+    private boolean continueRight;
+    private boolean continueLeft;
     private boolean activeEdge;
     private boolean passiveEdge;
     private boolean beyondToday;
@@ -40,7 +43,8 @@ class DayCell extends FrameLayout {
         inflater.inflate(R.layout.day_cell, this, true);
 
         dayNumber = ((TextView) findViewById(R.id.day_number));
-        continueMarker = findViewById(R.id.continue_marker);
+        continueMarkerRight = findViewById(R.id.continue_marker_right);
+        continueMarkerLeft = findViewById(R.id.continue_marker_left);
 
         textColor = getResources().getColorStateList(R.color.day_cell_text);
     }
@@ -55,7 +59,8 @@ class DayCell extends FrameLayout {
             // Reset all attrs
             withinMonth = false;
             withinInterval = false;
-            continueEdge = false;
+            continueRight = false;
+            continueLeft = false;
             activeEdge = false;
             passiveEdge = false;
             beyondToday = false;
@@ -84,13 +89,16 @@ class DayCell extends FrameLayout {
                     throw new IllegalStateException("Unexpected editMode: " + editMode);
             }
 
-            // continueEdge determines whenever currDay is edge day of current month and within selected period
+            // continueRight and continueLeft determines whenever currDay is edge day of current month and within selected period
             if (withinMonth && withinInterval && !activeEdge && !passiveEdge) {
-                int firstDayOfMonth = currentMonth.getActualMinimum(Calendar.DAY_OF_MONTH);
-                int lastDayOfMonth = currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
                 int dayOfMonth = date.get(Calendar.DAY_OF_MONTH);
 
-                continueEdge = dayOfMonth == firstDayOfMonth || dayOfMonth == lastDayOfMonth;
+                if (dayOfMonth == currentMonth.getActualMinimum(Calendar.DAY_OF_MONTH)) {
+                    continueLeft = true;
+                }
+                if (dayOfMonth == currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                    continueRight = true;
+                }
             }
         }
 
@@ -99,7 +107,8 @@ class DayCell extends FrameLayout {
             dayNumber.setVisibility(withinMonth ? VISIBLE : GONE);
             dayNumber.setText(String.valueOf(date.get(Calendar.DAY_OF_MONTH)));
 
-            continueMarker.setVisibility(continueEdge ? VISIBLE : GONE);
+            continueMarkerRight.setVisibility(continueRight ? VISIBLE : GONE);
+            continueMarkerLeft.setVisibility(continueLeft ? VISIBLE : GONE);
 
             refreshDrawableState();
         }
@@ -117,15 +126,18 @@ class DayCell extends FrameLayout {
 
     @Override
     protected int[] onCreateDrawableState(int extraSpace) {
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 6);
+        final int[] drawableState = super.onCreateDrawableState(extraSpace + 7);
         if (withinMonth) {
             mergeDrawableStates(drawableState, WITHIN_MONTH);
         }
         if (withinInterval) {
             mergeDrawableStates(drawableState, WITHIN_INTERVAL);
         }
-        if (continueEdge) {
-            mergeDrawableStates(drawableState, CONTINUE_EDGE);
+        if (continueRight) {
+            mergeDrawableStates(drawableState, CONTINUE_RIGHT);
+        }
+        if (continueLeft) {
+            mergeDrawableStates(drawableState, CONTINUE_LEFT);
         }
         if (activeEdge) {
             mergeDrawableStates(drawableState, ACTIVE_EDGE);

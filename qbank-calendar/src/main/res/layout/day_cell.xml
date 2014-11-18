@@ -8,13 +8,25 @@
         android:id="@+id/container">
 
     <com.metaphore.qbankcalendar.TintableImageView
+            android:id="@+id/continue_marker_left"
+            android:layout_width="@dimen/day_cell_continue_marker_size"
+            android:layout_height="@dimen/day_cell_continue_marker_size"
+            android:layout_marginRight="@dimen/day_cell_continue_marker_side_margin"
+            android:layout_marginLeft="@dimen/day_cell_continue_marker_side_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/continue_marker"
+            android:visibility="gone"
+            custom:tint="@color/day_cell_continue_marker"/>
+
+    <com.metaphore.qbankcalendar.TintableImageView
+            android:id="@+id/continue_marker_right"
             android:layout_width="@dimen/day_cell_continue_marker_size"
             android:layout_height="@dimen/day_cell_continue_marker_size"
             android:layout_marginRight="@dimen/day_cell_continue_marker_side_margin"
             android:layout_marginLeft="@dimen/day_cell_continue_marker_side_margin"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:id="@+id/continue_marker"
             android:src="@drawable/continue_marker"
             android:visibility="gone"
             custom:tint="@color/day_cell_continue_marker"/>

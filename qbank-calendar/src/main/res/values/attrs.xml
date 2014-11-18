@@ -9,7 +9,8 @@
     <declare-styleable name="DayCell">
         <attr name="state_within_month" format="boolean" />
         <attr name="state_within_interval" format="boolean" />
-        <attr name="state_continue_edge" format="boolean" />
+        <attr name="state_continue_right" format="boolean" />
+        <attr name="state_continue_left" format="boolean" />
         <attr name="state_active_edge" format="boolean" />
         <attr name="state_passive_edge" format="boolean" />
         <attr name="state_beyond_today" format="boolean" />
